@@ -390,20 +390,27 @@ function setFilter(f, btn){
 
 // ── Render log ─────────────────────────────────────────────
 async function renderLog(){
-  // Always render immediately from local cache (fast, consistent)
-  const arr = lLoad();
-  renderLogFromData(arr);
+  const el = document.getElementById('activity-log');
 
-  // Then silently refresh from Sheets in the background
+  // Show cached data immediately so screen isn't blank
+  const cached = lLoad();
+  if(cached.length) renderLogFromData(cached);
+  else el.innerHTML = '<div class="empty"><div class="ei">⏳</div><p>Loading from Sheets…</p></div>';
+
+  // Always fetch fresh from Sheets — it's the source of truth
   try{
     const fresh = await gsRead();
-    if(Array.isArray(fresh) && fresh.length > 0){
-      const normalised = fresh.map(a => ({...a, distance: +a.distance}));
-      lSave(normalised);
-      // Only re-render if data actually changed
-      if(normalised.length !== arr.length) renderLogFromData(normalised);
+    if(!Array.isArray(fresh)) throw new Error('bad response');
+    const normalised = fresh.map(a => ({...a, distance: +a.distance}));
+    lSave(normalised); // update local cache to match Sheets
+    renderLogFromData(normalised);
+  } catch(e){
+    // Sheets unreachable — stick with cached data
+    if(!cached.length){
+      el.innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Could not load data.<br>Check your connection.</p></div>';
     }
-  } catch{ /* silently use local */ }
+    showToast('⚠ Using cached data — Sheets unreachable');
+  }
 }
 
 function renderLogFromData(arr){
@@ -412,7 +419,7 @@ function renderLogFromData(arr){
   // Most recent first
   filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-  // Fix 3: stats reflect the filtered set (or all if no filter)
+  // Stats reflect the currently filtered set
   updateStats(filtered);
 
   document.getElementById('log-count').textContent = filtered.length + ' activit' + (filtered.length===1?'y':'ies');
@@ -507,11 +514,25 @@ async function importHistorical() {
   showToast('✅ ' + HISTORICAL_DATA.length + ' historical activities synced to Sheets!');
 }
 
-// Load stats from cache on startup (full dataset, no filter)
-const cached = lLoad();
-if (cached.length) updateStats(cached);
-else updateStats(HISTORICAL_DATA); // fallback to embedded data before cache warms
-importHistorical();
+// Load stats on startup — show cache immediately, then sync from Sheets
+(async function init(){
+  const cached = lLoad();
+  if(cached.length) updateStats(cached);
+  else updateStats(HISTORICAL_DATA);
+
+  // Run historical import if needed (sets flag before Sheets writes)
+  await importHistorical();
+
+  // Always refresh stats from Sheets to keep all devices in sync
+  try{
+    const fresh = await gsRead();
+    if(Array.isArray(fresh) && fresh.length > 0){
+      const normalised = fresh.map(a => ({...a, distance: +a.distance}));
+      lSave(normalised);
+      updateStats(normalised);
+    }
+  } catch{ /* keep cached stats */ }
+})();
 </script>
 </body>
 </html>
