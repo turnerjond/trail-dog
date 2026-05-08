@@ -390,25 +390,30 @@ function setFilter(f, btn){
 
 // ── Render log ─────────────────────────────────────────────
 async function renderLog(){
-  const el = document.getElementById('activity-log');
-  el.innerHTML = '<div class="empty"><div class="ei">⏳</div><p>Loading…</p></div>';
-  let arr = [];
+  // Always render immediately from local cache (fast, consistent)
+  const arr = lLoad();
+  renderLogFromData(arr);
+
+  // Then silently refresh from Sheets in the background
   try{
-    arr = await gsRead();
-    if(!Array.isArray(arr)) throw new Error();
-    // Ensure numeric distance
-    arr = arr.map(a => ({...a, distance: +a.distance}));
-    lSave(arr);
-  } catch{
-    arr = lLoad();
-    showToast('Using local data');
-  }
+    const fresh = await gsRead();
+    if(Array.isArray(fresh) && fresh.length > 0){
+      const normalised = fresh.map(a => ({...a, distance: +a.distance}));
+      lSave(normalised);
+      // Only re-render if data actually changed
+      if(normalised.length !== arr.length) renderLogFromData(normalised);
+    }
+  } catch{ /* silently use local */ }
+}
 
-  updateStats(arr);
-
+function renderLogFromData(arr){
+  const el = document.getElementById('activity-log');
   const filtered = currentFilter === 'all' ? arr : arr.filter(a => a.activity === currentFilter);
   // Most recent first
   filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  // Fix 3: stats reflect the filtered set (or all if no filter)
+  updateStats(filtered);
 
   document.getElementById('log-count').textContent = filtered.length + ' activit' + (filtered.length===1?'y':'ies');
 
@@ -491,19 +496,21 @@ async function importHistorical() {
   // Save to local cache immediately
   lSave([...HISTORICAL_DATA]);
   updateStats(HISTORICAL_DATA);
-  // Push to Google Sheets in batches
+  // Set flag NOW so a closed tab never re-imports
+  localStorage.setItem('td_imported', '1');
+  // Push to Google Sheets in batches (background, non-blocking)
   const BATCH = 50;
   for (let i = 0; i < HISTORICAL_DATA.length; i += BATCH) {
     const batch = HISTORICAL_DATA.slice(i, i + BATCH);
     await Promise.all(batch.map(e => gsAdd(e)));
   }
-  localStorage.setItem('td_imported', '1');
-  showToast('✅ ' + HISTORICAL_DATA.length + ' historical activities imported!');
+  showToast('✅ ' + HISTORICAL_DATA.length + ' historical activities synced to Sheets!');
 }
 
-// Load stats from cache on startup
+// Load stats from cache on startup (full dataset, no filter)
 const cached = lLoad();
 if (cached.length) updateStats(cached);
+else updateStats(HISTORICAL_DATA); // fallback to embedded data before cache warms
 importHistorical();
 </script>
 </body>
