@@ -123,9 +123,6 @@
   .ac-dist{text-align:right;flex-shrink:0}
   .ac-dist-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--orange);line-height:1}
   .ac-dist-unit{font-size:.58rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-top:.1rem}
-  /* Delete — always visible, not hover-only */
-  .del-btn{flex-shrink:0;background:none;border:1px solid var(--border);border-radius:6px;padding:.35rem .5rem;font-size:.7rem;color:var(--ink3);cursor:pointer;transition:all .15s;line-height:1}
-  .del-btn:hover{background:#3a0a0a;border-color:var(--red);color:var(--red)}
 
   /* PAGINATION */
   .pagination{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:1.25rem;padding-bottom:2rem}
@@ -145,6 +142,11 @@
   .status-banner.show{display:block}
   .status-banner.ok{border-color:var(--orange-dim);color:var(--ink2)}
   .status-banner.err{border-color:#4a1717;background:#211414;color:var(--red)}
+  .status-banner.prompt{border-color:var(--orange-dim);color:var(--ink2)}
+  .status-actions{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.6rem}
+  .status-actions button{padding:.45rem .7rem;border:1px solid var(--border);border-radius:7px;background:var(--bg3);color:var(--ink2);font-family:'DM Mono',monospace;font-size:.65rem;cursor:pointer}
+  .status-actions button.primary{border-color:var(--orange);background:var(--orange-deep);color:var(--orange)}
+  .status-actions button:hover{border-color:var(--orange-dim);color:var(--orange)}
 
   /* EDITING */
   .form-actions{display:flex;gap:.6rem;margin-top:2rem}
@@ -152,10 +154,15 @@
   .cancelbtn{display:none;padding:1rem 1.1rem;background:none;color:var(--ink3);border:1.5px solid var(--border);border-radius:10px;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
   .cancelbtn.show{display:block}
   .cancelbtn:hover{border-color:var(--orange-dim);color:var(--orange)}
-  .loc-helper{font-size:.62rem;color:var(--ink3);line-height:1.45;margin-top:.45rem}
   .card-actions{display:flex;gap:.35rem;align-items:center}
-  .edit-btn{flex-shrink:0;background:none;border:1px solid var(--border);border-radius:6px;padding:.35rem .5rem;font-size:.7rem;color:var(--ink3);cursor:pointer;transition:all .15s;line-height:1}
-  .edit-btn:hover{background:var(--orange-deep);border-color:var(--orange);color:var(--orange)}
+  .card-menu-wrap{position:relative;display:flex;align-items:center}
+  .menu-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:6px;color:var(--ink3);font-size:1rem;line-height:1;cursor:pointer;transition:all .15s}
+  .menu-btn:hover,.menu-btn[aria-expanded="true"]{background:var(--orange-deep);border-color:var(--orange);color:var(--orange)}
+  .card-menu{position:absolute;right:0;top:calc(100% + .35rem);z-index:5;min-width:104px;padding:.25rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .card-menu[hidden]{display:none}
+  .card-menu button{width:100%;padding:.48rem .6rem;background:none;border:none;border-radius:6px;color:var(--ink2);font-family:'DM Mono',monospace;font-size:.68rem;text-align:left;cursor:pointer}
+  .card-menu button:hover{background:var(--bg3);color:var(--orange)}
+  .card-menu button.danger:hover{background:#3a0a0a;color:var(--red)}
 
   /* TOAST */
   .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--orange);color:#fff;padding:.7rem 1.4rem;border-radius:40px;font-size:.78rem;font-family:'DM Mono',monospace;font-weight:500;letter-spacing:.05em;transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:1000;box-shadow:0 8px 30px rgba(249,115,22,.3);white-space:nowrap}
@@ -194,15 +201,15 @@
 </header>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-val" id="stat-total">—</div><div class="stat-lbl">Activities</div></div>
-  <div class="stat"><div class="stat-val" id="stat-miles">—</div><div class="stat-lbl">Total Miles</div></div>
-  <div class="stat"><div class="stat-val" id="stat-longest">—</div><div class="stat-lbl">Longest</div></div>
-  <div class="stat"><div class="stat-val" id="stat-fav">—</div><div class="stat-lbl">Top Spot</div></div>
+  <div class="stat"><div class="stat-val" id="stat-total">—</div><div class="stat-lbl" id="stat-total-lbl">Activities</div></div>
+  <div class="stat"><div class="stat-val" id="stat-miles">—</div><div class="stat-lbl" id="stat-miles-lbl">Total Miles</div></div>
+  <div class="stat"><div class="stat-val" id="stat-longest">—</div><div class="stat-lbl" id="stat-longest-lbl">Longest</div></div>
+  <div class="stat"><div class="stat-val" id="stat-fav">—</div><div class="stat-lbl" id="stat-fav-lbl">Top Spot</div></div>
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('log-entry',this)">+ Log Activity</button>
-  <button class="tab" onclick="switchTab('log-view',this)">📋 Activity Log</button>
+  <button type="button" class="tab active" onclick="switchTab('log-entry',this)">+ Log Activity</button>
+  <button type="button" class="tab" onclick="switchTab('log-view',this)">📋 Activity Log</button>
 </div>
 
 <div class="status-banner" id="sheet-status"></div>
@@ -211,46 +218,45 @@
 <div id="panel-log-entry" class="panel active">
   <div class="fw">
     <div class="field">
-      <label>Date</label>
+      <label for="activity-date">Date</label>
       <input type="date" class="date-input" id="activity-date">
     </div>
     <div class="field">
-      <label>Activity Type</label>
-      <div class="activity-grid">
-        <button class="act-btn" onclick="selectAct('hike',this)">
+      <label id="activity-type-label">Activity Type</label>
+      <div class="activity-grid" role="group" aria-labelledby="activity-type-label">
+        <button type="button" class="act-btn" aria-pressed="false" onclick="selectAct('hike',this)">
           <span class="act-icon">🥾</span><span class="act-name">Hike</span><span class="act-sub">Trail hiking</span>
         </button>
-        <button class="act-btn" onclick="selectAct('trail-run',this)">
+        <button type="button" class="act-btn" aria-pressed="false" onclick="selectAct('trail-run',this)">
           <span class="act-icon">🏃</span><span class="act-name">Trail Run</span><span class="act-sub">Off-road running</span>
         </button>
-        <button class="act-btn" onclick="selectAct('mtb',this)">
+        <button type="button" class="act-btn" aria-pressed="false" onclick="selectAct('mtb',this)">
           <span class="act-icon">🚵</span><span class="act-name">MTB</span><span class="act-sub">Mountain biking</span>
         </button>
-        <button class="act-btn" onclick="selectAct('ruck',this)">
+        <button type="button" class="act-btn" aria-pressed="false" onclick="selectAct('ruck',this)">
           <span class="act-icon">🎒</span><span class="act-name">Ruck</span><span class="act-sub">Weighted hike</span>
         </button>
       </div>
     </div>
     <div class="field">
-      <label>Location</label>
-      <div class="loc-hint">Showing your 5 most recent locations, sorted A-Z.</div>
+      <label id="location-label">Location</label>
+      <div class="loc-hint">Showing your 5 most recently used locations.</div>
       <div class="loc-list" id="loc-list"></div>
-      <div class="loc-helper">Showing your 5 most recent locations, sorted A-Z.</div>
       <div class="add-loc-row">
-        <input type="text" id="new-loc-input" placeholder="Add new location…" onkeydown="if(event.key==='Enter') addLocation()">
-        <button onclick="addLocation()">+ Add</button>
+        <input type="text" id="new-loc-input" aria-label="Add new location" placeholder="Add new location…" onkeydown="if(event.key==='Enter') addLocation()">
+        <button type="button" onclick="addLocation()">+ Add</button>
       </div>
     </div>
     <div class="field">
-      <label>Distance</label>
+      <label for="distance">Distance</label>
       <div class="dist-wrap">
         <input type="number" id="distance" min="0" step="0.1" placeholder="0.0" inputmode="decimal">
         <span class="dist-unit">mi</span>
       </div>
     </div>
     <div class="form-actions">
-      <button class="savebtn" id="savebtn" onclick="saveActivity()">Log Activity 🐾</button>
-      <button class="cancelbtn" id="cancel-edit" onclick="cancelEdit()">Cancel</button>
+      <button type="button" class="savebtn" id="savebtn" onclick="saveActivity()">Log Activity 🐾</button>
+      <button type="button" class="cancelbtn" id="cancel-edit" onclick="cancelEdit()">Cancel</button>
     </div>
   </div>
 </div>
@@ -264,21 +270,21 @@
     </div>
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input type="text" id="search-input" placeholder="Search by location, activity…" oninput="onSearch()">
-      <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+      <input type="text" id="search-input" aria-label="Search activities" placeholder="Search by location, activity…" oninput="onSearch()">
+      <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" onclick="clearSearch()">✕</button>
     </div>
     <div class="filter-bar" id="filter-bar">
-      <button class="filter-btn on" data-filter="all" onclick="setFilter('all',this)">All</button>
-      <button class="filter-btn" data-filter="hike" onclick="setFilter('hike',this)">🥾 Hike</button>
-      <button class="filter-btn" data-filter="trail-run" onclick="setFilter('trail-run',this)">🏃 Trail Run</button>
-      <button class="filter-btn" data-filter="mtb" onclick="setFilter('mtb',this)">🚵 MTB</button>
-      <button class="filter-btn" data-filter="ruck" onclick="setFilter('ruck',this)">🎒 Ruck</button>
+      <button type="button" class="filter-btn on" aria-pressed="true" data-filter="all" onclick="setFilter('all',this)">All</button>
+      <button type="button" class="filter-btn" aria-pressed="false" data-filter="hike" onclick="setFilter('hike',this)">🥾 Hike</button>
+      <button type="button" class="filter-btn" aria-pressed="false" data-filter="trail-run" onclick="setFilter('trail-run',this)">🏃 Trail Run</button>
+      <button type="button" class="filter-btn" aria-pressed="false" data-filter="mtb" onclick="setFilter('mtb',this)">🚵 MTB</button>
+      <button type="button" class="filter-btn" aria-pressed="false" data-filter="ruck" onclick="setFilter('ruck',this)">🎒 Ruck</button>
     </div>
     <div id="activity-log"></div>
     <div class="pagination" id="pagination" style="display:none">
-      <button class="pg-btn" id="pg-prev" onclick="changePage(-1)">← Prev</button>
+      <button type="button" class="pg-btn" id="pg-prev" onclick="changePage(-1)">← Prev</button>
       <span class="pg-info" id="pg-info"></span>
-      <button class="pg-btn" id="pg-next" onclick="changePage(1)">Next →</button>
+      <button type="button" class="pg-btn" id="pg-next" onclick="changePage(1)">Next →</button>
     </div>
   </div>
 </div>
@@ -296,6 +302,8 @@ const DEFAULT_LOCATIONS = ['Rattlesnake Hill','Burgess Brown','Annie Moore','Hor
 const ACT_ICONS  = {'hike':'🥾','trail-run':'🏃','mtb':'🚵','ruck':'🎒'};
 const ACT_LABELS = {'hike':'Hike','trail-run':'Trail Run','mtb':'MTB','ruck':'Ruck'};
 const PAGE_SIZE  = 50;
+const SYNC_KEY = 'td_sync_enabled';
+const HISTORY_CHOICE_KEY = 'td_history_choice';
 
 // ── State ──────────────────────────────────────────────────
 let selectedAct  = null;
@@ -320,6 +328,9 @@ async function gsDelete(id){ await gsWrite({action:'delete',id}) }
 async function gsUpdate(entry){
   // Preferred path if the Apps Script supports updates. If not, the local edit still works.
   await gsWrite({action:'update',entry});
+}
+function isSyncEnabled(){
+  return localStorage.getItem(SYNC_KEY) === '1';
 }
 
 // ── Local cache ────────────────────────────────────────────
@@ -414,7 +425,15 @@ function updateStreak(arr){
 }
 
 // ── Stats ──────────────────────────────────────────────────
-function updateStats(arr){
+function setStatLabels(filtered=false){
+  document.getElementById('stat-total-lbl').textContent = filtered ? 'Filtered Activities' : 'Activities';
+  document.getElementById('stat-miles-lbl').textContent = filtered ? 'Filtered Miles' : 'Total Miles';
+  document.getElementById('stat-longest-lbl').textContent = filtered ? 'Filtered Longest' : 'Longest';
+  document.getElementById('stat-fav-lbl').textContent = filtered ? 'Filtered Top Spot' : 'Top Spot';
+}
+
+function updateStats(arr, filtered=false){
+  setStatLabels(filtered);
   if(!arr.length){
     ['stat-total','stat-miles','stat-longest','stat-fav'].forEach(id=>{
       document.getElementById(id).textContent = id==='stat-fav'?'—':'0';
@@ -471,25 +490,25 @@ function getRecentLocations(){
     }
   });
 
-  // Pick the 5 most recently used unique locations, then display them alphabetically.
+  // Pick the 5 most recently used unique locations.
   return [...latestByLocation.values()]
     .sort((a,b)=>b.time-a.time)
     .slice(0,5)
-    .map(item=>item.loc)
-    .sort(locationSort);
+    .map(item=>item.loc);
 }
 
 function renderLocations(){
   const list = document.getElementById('loc-list');
   list.innerHTML = getRecentLocations().map(loc =>
-    `<button class="loc-btn${selectedLoc===loc?' on':''}" data-location="${esc(loc)}" onclick="selectLoc(this.dataset.location,this)">${esc(loc)}</button>`
+    `<button type="button" class="loc-btn${selectedLoc===loc?' on':''}" aria-pressed="${selectedLoc===loc?'true':'false'}" data-location="${esc(loc)}" onclick="selectLoc(this.dataset.location,this)">${esc(loc)}</button>`
   ).join('');
 }
 
 function selectLoc(loc,btn){
   selectedLoc = loc;
-  document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.loc-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
   btn.classList.add('on');
+  btn.setAttribute('aria-pressed','true');
 }
 
 function addLocation(){
@@ -501,23 +520,23 @@ function addLocation(){
   renderLocations();
   // Highlight if it appears in the recent 5, otherwise just set selectedLoc
   const btn = [...document.querySelectorAll('.loc-btn')].find(b=>b.textContent===val);
-  if(btn){ document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+  if(btn){ document.querySelectorAll('.loc-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); }); btn.classList.add('on'); btn.setAttribute('aria-pressed','true'); }
   else showToast('Location set: '+val);
 }
 
 function selectAct(act,btn){
   selectedAct = act;
-  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
-  if(btn) btn.classList.add('on');
+  document.querySelectorAll('.act-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
+  if(btn){ btn.classList.add('on'); btn.setAttribute('aria-pressed','true'); }
 }
 
 function setSmartDefaults(){
   const recent = lLoad().sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
   selectedAct = recent?.activity || 'hike';
   selectedLoc = recent?.location || getRecentLocations()[0] || null;
-  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.act-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
   const actBtn = [...document.querySelectorAll('.act-btn')].find(b => b.getAttribute('onclick')?.includes("'"+selectedAct+"'"));
-  if(actBtn) actBtn.classList.add('on');
+  if(actBtn){ actBtn.classList.add('on'); actBtn.setAttribute('aria-pressed','true'); }
   renderLocations();
 }
 
@@ -529,6 +548,7 @@ async function saveActivity(){
   if(!dist||dist<=0){ showToast('Enter a distance','err'); return; }
   const dateVal = document.getElementById('activity-date').value;
   if(!dateVal){ showToast('Pick a date','err'); return; }
+  if(dateVal > todayISO()){ showToast('Date cannot be in the future','err'); return; }
 
   const entry = {
     id: editingId || Date.now(),
@@ -545,11 +565,15 @@ async function saveActivity(){
   const cache = lLoad();
   const next = editingId ? cache.map(a => a.id===editingId ? entry : a) : [entry, ...cache];
   lSave(next); lastFullData = next;
-  renderLocations(); updateStats(next); updateStreak(next);
+  renderLocations(); updateStats(next, false); updateStreak(next);
 
   try{
-    if(editingId) await gsUpdate(entry); else await gsAdd(entry);
-    showSheetStatus('Synced to Google Sheets.', 'ok');
+    if(isSyncEnabled()){
+      if(editingId) await gsUpdate(entry); else await gsAdd(entry);
+      showSheetStatus('Synced to Google Sheets.', 'ok');
+    } else {
+      showLocalModeStatus('Saved locally. Google Sheets sync is off.');
+    }
     showToast(editingId ? 'Activity updated' : '🐾 Logged! '+dist.toFixed(1)+' mi at '+entry.location);
   } catch(err){
     showSheetStatus('Saved locally. Google Sheets could not be reached, so this device has the latest copy for now.', 'err');
@@ -573,6 +597,7 @@ function resetForm(){
 }
 
 function editActivity(id){
+  closeCardMenus();
   const item = lLoad().find(a=>a.id===id);
   if(!item){ showToast('Could not find that activity','err'); return; }
   editingId = id;
@@ -585,9 +610,9 @@ function editActivity(id){
   setSmartDefaults();
   selectedAct = item.activity;
   selectedLoc = canonicalLocationName(item.location);
-  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.act-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
   const actBtn = [...document.querySelectorAll('.act-btn')].find(b => b.getAttribute('onclick')?.includes("'"+selectedAct+"'"));
-  if(actBtn) actBtn.classList.add('on');
+  if(actBtn){ actBtn.classList.add('on'); actBtn.setAttribute('aria-pressed','true'); }
   renderLocations();
   document.querySelectorAll('.tab')[0].click();
   showToast('Editing activity');
@@ -629,8 +654,9 @@ function clearSearch(){
 // ── Filter ─────────────────────────────────────────────────
 function setFilter(f,btn){
   currentFilter=f; currentPage=1;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.filter-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
   btn.classList.add('on');
+  btn.setAttribute('aria-pressed','true');
   renderLogFromData(lastFullData);
 }
 
@@ -665,7 +691,7 @@ function renderLogFromData(arr){
   const el = document.getElementById('activity-log');
 
   // Apply filter
-  let filtered = currentFilter==='all' ? arr : arr.filter(a=>a.activity===currentFilter);
+  let filtered = currentFilter==='all' ? [...arr] : arr.filter(a=>a.activity===currentFilter);
 
   // Apply search
   if(searchQuery){
@@ -681,7 +707,8 @@ function renderLogFromData(arr){
   filtered.sort((a,b)=>new Date(b.date)-new Date(a.date));
 
   // Update stats & counts for filtered set
-  updateStats(filtered);
+  const isFilteredView = currentFilter !== 'all' || !!searchQuery;
+  updateStats(filtered, isFilteredView);
   updateFilterCounts(arr); // counts always based on full unfiltered data
 
   // Pagination
@@ -724,23 +751,48 @@ function renderLogFromData(arr){
         <div class="ac-dist-unit">miles</div>
       </div>
       <div class="card-actions">
-        <button class="edit-btn" onclick="editActivity(${a.id})">Edit</button>
-        <button class="del-btn" onclick="deleteActivity(${a.id})">✕</button>
+        <div class="card-menu-wrap">
+          <button type="button" class="menu-btn" aria-label="Actions for ${esc(ACT_LABELS[a.activity]||a.activity)} at ${esc(String(a.location))}" aria-haspopup="true" aria-expanded="false" onclick="toggleCardMenu(${a.id},event)">⋯</button>
+          <div class="card-menu" id="card-menu-${a.id}" hidden>
+            <button type="button" onclick="editActivity(${a.id})">Edit</button>
+            <button type="button" class="danger" onclick="deleteActivity(${a.id})">Delete</button>
+          </div>
+        </div>
       </div>
     </div>`;
   }).join('');
 }
 
+function closeCardMenus(){
+  document.querySelectorAll('.card-menu').forEach(menu=>menu.hidden=true);
+  document.querySelectorAll('.menu-btn').forEach(btn=>btn.setAttribute('aria-expanded','false'));
+}
+
+function toggleCardMenu(id,event){
+  event.stopPropagation();
+  const menu = document.getElementById('card-menu-'+id);
+  const btn = event.currentTarget;
+  const opening = menu.hidden;
+  closeCardMenus();
+  menu.hidden = !opening;
+  btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+}
+
 // ── Delete ─────────────────────────────────────────────────
 async function deleteActivity(id){
+  closeCardMenus();
   if(!confirm('Remove this activity?')) return;
   const updated = lLoad().filter(a=>a.id!==id);
   lSave(updated); lastFullData=updated;
   renderLogFromData(updated);
   updateStreak(updated);
   try{
-    await gsDelete(id);
-    showSheetStatus('Synced to Google Sheets.', 'ok');
+    if(isSyncEnabled()){
+      await gsDelete(id);
+      showSheetStatus('Synced to Google Sheets.', 'ok');
+    } else {
+      showLocalModeStatus('Removed locally. Google Sheets sync is off.');
+    }
     showToast('Activity removed');
   } catch(err){
     showSheetStatus('Removed locally. Google Sheets could not be reached, so this device has the latest copy for now.', 'err');
@@ -756,49 +808,115 @@ function showSheetStatus(msg,type='ok'){
   el.textContent=msg;
   el.className='status-banner show '+(type==='err'?'err':'ok');
 }
+function showSheetPrompt(msg,actions=[]){
+  const el=document.getElementById('sheet-status');
+  if(!el) return;
+  el.innerHTML = esc(msg) + (actions.length ? '<div class="status-actions">' + actions.map(a =>
+    `<button type="button" class="${a.primary?'primary':''}" onclick="${a.onclick}">${esc(a.label)}</button>`
+  ).join('') + '</div>' : '');
+  el.className='status-banner show prompt';
+}
+function showLocalModeStatus(msg='Local mode. Google Sheets sync is off.'){
+  showSheetPrompt(msg, [
+    {label:'Enable Sheets Sync', onclick:'enableSheetsSync()', primary:true}
+  ]);
+}
 function showToast(msg,type=''){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className='toast'+(type==='err'?' err':''); t.classList.add('show');
   clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-// ── Init ───────────────────────────────────────────────────
-document.getElementById('activity-date').value = todayISO();
-setSmartDefaults();
+document.addEventListener('click', closeCardMenus);
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCardMenus(); });
 
-// Historical import (once only)
-async function importHistorical(){
-  if(localStorage.getItem('td_imported')) return;
-  showToast('📥 Importing '+HISTORICAL_DATA.length+' historical activities…');
-  lSave([...HISTORICAL_DATA]);
-  localStorage.setItem('td_imported','1');
-  const BATCH=50;
-  for(let i=0;i<HISTORICAL_DATA.length;i+=BATCH){
-    const batch=HISTORICAL_DATA.slice(i,i+BATCH);
-    await Promise.all(batch.map(e=>gsAdd(e)));
-  }
-  showToast('✅ '+HISTORICAL_DATA.length+' activities synced!');
+// ── Init ───────────────────────────────────────────────────
+// Historical import is user-triggered so personal activity/location data is not synced unexpectedly.
+function showHistoryImportPrompt(){
+  showSheetPrompt(HISTORICAL_DATA.length+' historical activities are bundled with this app. Import them when you are ready, or start with an empty log.', [
+    {label:'Import History Locally', onclick:'importHistorical()', primary:true},
+    {label:'Start Fresh', onclick:'skipHistoricalImport()'}
+  ]);
 }
 
-(async function init(){
-  const cached = lLoad();
-  const seed = cached.length ? cached : normalizeActivities(HISTORICAL_DATA);
-  lSave(seed);
-  updateStats(seed); updateStreak(seed); lastFullData=seed; setSmartDefaults();
-  await importHistorical();
+async function importHistorical(){
+  showToast('Importing '+HISTORICAL_DATA.length+' historical activities…');
+  const norm = normalizeActivities(HISTORICAL_DATA);
+  lSave(norm);
+  localStorage.setItem('td_imported','1');
+  localStorage.setItem(HISTORY_CHOICE_KEY,'imported');
+  lastFullData = norm;
+  setSmartDefaults();
+  updateStats(norm, false);
+  updateStreak(norm);
+  renderLocations();
+  renderLogFromData(norm);
+  showLocalModeStatus('Imported historical activities locally. Enable Sheets sync only if you want future changes sent to Google Sheets.');
+  showToast(HISTORICAL_DATA.length+' historical activities imported');
+}
+
+function skipHistoricalImport(){
+  localStorage.setItem(HISTORY_CHOICE_KEY,'empty');
+  lSave([]);
+  lastFullData = [];
+  setSmartDefaults();
+  updateStats([], false);
+  updateStreak([]);
+  renderLocations();
+  renderLogFromData([]);
+  showLocalModeStatus('Started with an empty local log. Google Sheets sync is off.');
+}
+
+async function enableSheetsSync(){
+  localStorage.setItem(SYNC_KEY,'1');
+  showSheetStatus('Connecting to Google Sheets…', 'ok');
   try{
     const fresh = await gsRead();
     if(Array.isArray(fresh)&&fresh.length>0){
       const norm = normalizeActivities(fresh);
       lSave(norm); lastFullData=norm;
       setSmartDefaults();
-      updateStats(norm); updateStreak(norm);
-      showSheetStatus('Connected to Google Sheets. Latest activities loaded.', 'ok');
+      updateStats(norm, false); updateStreak(norm); renderLocations(); renderLogFromData(norm);
+      showSheetStatus('Google Sheets sync enabled. Latest sheet rows loaded.', 'ok');
     } else {
-      showSheetStatus('Using local data. No Google Sheets rows were returned.', 'err');
+      showSheetStatus('Google Sheets sync enabled. New changes will sync.', 'ok');
     }
   } catch(err){
-    showSheetStatus('Offline/local mode: Google Sheets could not be reached. New changes will still save on this device.', 'err');
+    showSheetStatus('Google Sheets sync was enabled, but the sheet could not be reached right now.', 'err');
+  }
+}
+
+(async function init(){
+  const dateInput = document.getElementById('activity-date');
+  dateInput.value = todayISO();
+  dateInput.max = todayISO();
+  const cached = lLoad();
+  const seed = cached.length ? cached : [];
+  lSave(seed);
+  updateStats(seed, false); updateStreak(seed); lastFullData=seed; setSmartDefaults();
+
+  if(!cached.length && !localStorage.getItem(HISTORY_CHOICE_KEY)){
+    showHistoryImportPrompt();
+    return;
+  }
+
+  if(isSyncEnabled()){
+    try{
+      const fresh = await gsRead();
+      if(Array.isArray(fresh)&&fresh.length>0){
+        const norm = normalizeActivities(fresh);
+        lSave(norm); lastFullData=norm;
+        setSmartDefaults();
+        updateStats(norm, false); updateStreak(norm); renderLocations();
+        showSheetStatus('Google Sheets sync enabled. Latest activities loaded.', 'ok');
+      } else {
+        showSheetStatus('Google Sheets sync enabled. No sheet rows were returned.', 'err');
+      }
+    } catch(err){
+      showSheetStatus('Offline/local mode: Google Sheets could not be reached. New changes will still save on this device.', 'err');
+    }
+  } else {
+    showLocalModeStatus('Local mode. Google Sheets sync is off.');
   }
 })();
 </script>
