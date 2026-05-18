@@ -303,9 +303,23 @@ function selectAct(act, btn){
 }
 
 // ── Location list ──────────────────────────────────────────
+function getTop5Locations(){
+  const history = lLoad();
+  if(history.length === 0) return [...DEFAULT_LOCATIONS].sort((a,b) => a.localeCompare(b));
+  // Count frequency of each location across all activities
+  const counts = {};
+  history.forEach(a => { counts[a.location] = (counts[a.location]||0)+1; });
+  return Object.entries(counts)
+    .sort((a,b) => b[1]-a[1])   // sort by frequency descending
+    .slice(0,5)
+    .map(([loc]) => loc)
+    .sort((a,b) => a.localeCompare(b));
+}
+
 function renderLocations(){
   const list = document.getElementById('loc-list');
-  list.innerHTML = locations.map(loc =>
+  const top5 = getTop5Locations();
+  list.innerHTML = top5.map(loc =>
     `<button class="loc-btn${selectedLoc===loc?' on':''}" onclick="selectLoc('${esc(loc)}',this)">${esc(loc)}</button>`
   ).join('');
 }
