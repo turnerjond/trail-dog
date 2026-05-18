@@ -58,9 +58,10 @@
   .loc-list{display:flex;flex-direction:column;gap:.4rem}
   .loc-btn{padding:.7rem 1rem;border:1.5px solid var(--border);border-radius:7px;background:var(--bg3);cursor:pointer;font-family:'DM Mono',monospace;font-size:.8rem;color:var(--ink2);text-align:left;transition:all .15s;display:flex;align-items:center;gap:.5rem}
   .loc-btn::before{content:'📍';font-size:.85rem;opacity:.6}
-  .loc-btn:hover{border-color:var(--orange-dim);color:var(--ink)}
+  .loc-btn:hover,.loc-btn:focus-visible{border-color:var(--orange-dim);color:var(--ink);outline:none}
   .loc-btn.on{border-color:var(--orange);background:var(--orange-deep);color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
   .loc-btn.on::before{opacity:1}
+  .loc-hint{font-size:.62rem;color:var(--ink3);margin:-.25rem 0 .55rem;line-height:1.5}
   .add-loc-row{display:flex;gap:.5rem;margin-top:.4rem}
   .add-loc-row input{flex:1;padding:.65rem .9rem;font-family:'DM Mono',monospace;font-size:.8rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:7px;color:var(--ink);outline:none;min-width:0}
   .add-loc-row input:focus{border-color:var(--orange-dim)}
@@ -137,6 +138,25 @@
   .empty .ei{font-size:3rem;margin-bottom:1rem;opacity:.4}
   .empty p{font-size:.82rem;line-height:1.7}
 
+
+
+  /* STATUS / OFFLINE BANNER */
+  .status-banner{display:none;margin:1rem auto 0;max-width:580px;padding:.65rem .9rem;border:1px solid var(--border);border-radius:9px;background:var(--bg2);color:var(--ink3);font-size:.68rem;line-height:1.45}
+  .status-banner.show{display:block}
+  .status-banner.ok{border-color:var(--orange-dim);color:var(--ink2)}
+  .status-banner.err{border-color:#4a1717;background:#211414;color:var(--red)}
+
+  /* EDITING */
+  .form-actions{display:flex;gap:.6rem;margin-top:2rem}
+  .form-actions .savebtn{margin-top:0;flex:1}
+  .cancelbtn{display:none;padding:1rem 1.1rem;background:none;color:var(--ink3);border:1.5px solid var(--border);border-radius:10px;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+  .cancelbtn.show{display:block}
+  .cancelbtn:hover{border-color:var(--orange-dim);color:var(--orange)}
+  .loc-helper{font-size:.62rem;color:var(--ink3);line-height:1.45;margin-top:.45rem}
+  .card-actions{display:flex;gap:.35rem;align-items:center}
+  .edit-btn{flex-shrink:0;background:none;border:1px solid var(--border);border-radius:6px;padding:.35rem .5rem;font-size:.7rem;color:var(--ink3);cursor:pointer;transition:all .15s;line-height:1}
+  .edit-btn:hover{background:var(--orange-deep);border-color:var(--orange);color:var(--orange)}
+
   /* TOAST */
   .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--orange);color:#fff;padding:.7rem 1.4rem;border-radius:40px;font-size:.78rem;font-family:'DM Mono',monospace;font-weight:500;letter-spacing:.05em;transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:1000;box-shadow:0 8px 30px rgba(249,115,22,.3);white-space:nowrap}
   .toast.show{transform:translateX(-50%) translateY(0)}
@@ -146,6 +166,13 @@
   @keyframes sp{to{transform:rotate(360deg)}}
 
   @media(max-width:500px){
+    body{padding-bottom:4.5rem}
+    .tabs{position:fixed;left:0;right:0;bottom:0;z-index:999;padding:.35rem;background:var(--bg2);border-top:1px solid var(--border);border-bottom:none;box-shadow:0 -10px 30px rgba(0,0,0,.25)}
+    .tab{flex:1;margin:0;border:1px solid var(--border);border-radius:12px;padding:.75rem .4rem;font-size:.62rem;background:var(--bg3)}
+    .tab.active{background:var(--orange-deep);border-color:var(--orange);border-bottom-color:var(--orange)}
+    .fw{padding-bottom:5.5rem}
+    .log-wrap{padding-bottom:5.5rem}
+    .form-actions{position:sticky;bottom:4.85rem;z-index:997;background:linear-gradient(180deg, rgba(17,18,19,0), var(--bg) 28%);padding-top:1rem}
     .stats-bar{grid-template-columns:repeat(2,1fr)}
     .stats-bar .stat:nth-child(2){border-right:none}
     .stats-bar .stat:nth-child(3){border-top:1px solid var(--border)}
@@ -178,6 +205,8 @@
   <button class="tab" onclick="switchTab('log-view',this)">📋 Activity Log</button>
 </div>
 
+<div class="status-banner" id="sheet-status"></div>
+
 <!-- LOG ENTRY -->
 <div id="panel-log-entry" class="panel active">
   <div class="fw">
@@ -204,9 +233,11 @@
     </div>
     <div class="field">
       <label>Location</label>
+      <div class="loc-hint">Showing your 5 most recent locations, sorted A-Z.</div>
       <div class="loc-list" id="loc-list"></div>
+      <div class="loc-helper">Showing your 5 most recent locations, sorted A-Z.</div>
       <div class="add-loc-row">
-        <input type="text" id="new-loc-input" placeholder="Add new location…">
+        <input type="text" id="new-loc-input" placeholder="Add new location…" onkeydown="if(event.key==='Enter') addLocation()">
         <button onclick="addLocation()">+ Add</button>
       </div>
     </div>
@@ -217,7 +248,10 @@
         <span class="dist-unit">mi</span>
       </div>
     </div>
-    <button class="savebtn" id="savebtn" onclick="saveActivity()">Log Activity 🐾</button>
+    <div class="form-actions">
+      <button class="savebtn" id="savebtn" onclick="saveActivity()">Log Activity 🐾</button>
+      <button class="cancelbtn" id="cancel-edit" onclick="cancelEdit()">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -270,10 +304,12 @@ let currentFilter = 'all';
 let searchQuery  = '';
 let currentPage  = 1;
 let lastFullData = []; // full unfiltered dataset
+let editingId = null;
 
 // ── Google Sheets ──────────────────────────────────────────
 async function gsRead(){
   const res = await fetch(GS_URL+'?action=read',{method:'GET',redirect:'follow'});
+  if(!res.ok) throw new Error('Google Sheets read failed');
   return res.json();
 }
 async function gsWrite(payload){
@@ -281,10 +317,52 @@ async function gsWrite(payload){
 }
 async function gsAdd(entry){ await gsWrite({action:'add',entry}) }
 async function gsDelete(id){ await gsWrite({action:'delete',id}) }
+async function gsUpdate(entry){
+  // Preferred path if the Apps Script supports updates. If not, the local edit still works.
+  await gsWrite({action:'update',entry});
+}
 
 // ── Local cache ────────────────────────────────────────────
-function lLoad(){ try{ return JSON.parse(localStorage.getItem('td_activities')||'[]') }catch{ return [] } }
-function lSave(a){ localStorage.setItem('td_activities',JSON.stringify(a)) }
+function lLoad(){
+  try{ return normalizeActivities(JSON.parse(localStorage.getItem('td_activities')||'[]')) }
+  catch{ return [] }
+}
+function lSave(a){ localStorage.setItem('td_activities',JSON.stringify(normalizeActivities(a))) }
+
+
+
+// ── Cleanup / normalization ───────────────────────────────
+function titleCaseLocation(loc){
+  return String(loc || '').trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+function canonicalLocationName(loc){
+  const raw = String(loc || '').trim().replace(/\s+/g,' ');
+  const key = normalizedLocationKey(raw);
+  const known = {
+    'rattlesnake hill':'Rattlesnake Hill',
+    'annie moore':'Annie Moore',
+    'horse meadows knoll':'Horse Meadows Knoll',
+    'burgess-brown land':'Burgess-Brown Land',
+    'burgess brown land':'Burgess-Brown Land',
+    'guggins brook':'Guggins Brook',
+    'marble hill':'Marble Hill',
+    'bowers springs':'Bowers Springs',
+    'scorgie land':'Scorgie Land',
+    'heath hen meadow brook':'Heath Hen Meadow Brook',
+    'bolton common':'Bolton Common',
+    'other':'Other'
+  };
+  return known[key] || titleCaseLocation(raw);
+}
+function normalizeActivities(arr){
+  return (Array.isArray(arr) ? arr : []).map(a => ({
+    ...a,
+    id: Number(a.id) || Date.now(),
+    activity: a.activity || 'hike',
+    location: canonicalLocationName(a.location),
+    distance: Number(a.distance) || 0
+  }));
+}
 
 // ── Date helper ────────────────────────────────────────────
 function todayISO(){
@@ -367,20 +445,44 @@ function updateFilterCounts(arr){
 }
 
 // ── Locations ──────────────────────────────────────────────
-function getTop5Locations(){
+function normalizedLocationKey(loc){
+  return String(loc || '').trim().toLowerCase();
+}
+
+function locationSort(a,b){
+  return a.localeCompare(b, undefined, {sensitivity:'base'});
+}
+
+function getRecentLocations(){
   const history = lLoad();
-  if(!history.length) return [...DEFAULT_LOCATIONS].sort((a,b)=>a.localeCompare(b));
-  const counts = {};
-  history.forEach(a=>{ counts[a.location]=(counts[a.location]||0)+1; });
-  return Object.entries(counts)
-    .sort((a,b)=>b[1]-a[1]).slice(0,5).map(([l])=>l)
-    .sort((a,b)=>a.localeCompare(b));
+  if(!history.length) return [...DEFAULT_LOCATIONS].sort(locationSort);
+
+  // First pass: find the most recent entry for each unique location.
+  // This keeps the user's preferred capitalization from the latest log.
+  const latestByLocation = new Map();
+  history.forEach(a => {
+    const loc = String(a.location || '').trim();
+    if(!loc) return;
+    const key = normalizedLocationKey(loc);
+    const time = new Date(a.date).getTime() || 0;
+    const current = latestByLocation.get(key);
+    if(!current || time > current.time){
+      latestByLocation.set(key, {loc, time});
+    }
+  });
+
+  // Pick the 5 most recently used unique locations, then display them alphabetically.
+  return [...latestByLocation.values()]
+    .sort((a,b)=>b.time-a.time)
+    .slice(0,5)
+    .map(item=>item.loc)
+    .sort(locationSort);
 }
 
 function renderLocations(){
   const list = document.getElementById('loc-list');
-  list.innerHTML = getTop5Locations().map(loc =>
-    `<button class="loc-btn${selectedLoc===loc?' on':''}" onclick="selectLoc('${esc(loc)}',this)">${esc(loc)}</button>`
+  list.innerHTML = getRecentLocations().map(loc =>
+    `<button class="loc-btn${selectedLoc===loc?' on':''}" data-location="${esc(loc)}" onclick="selectLoc(this.dataset.location,this)">${esc(loc)}</button>`
   ).join('');
 }
 
@@ -392,12 +494,12 @@ function selectLoc(loc,btn){
 
 function addLocation(){
   const inp = document.getElementById('new-loc-input');
-  const val = inp.value.trim();
+  const val = canonicalLocationName(inp.value);
   if(!val) return;
   inp.value = '';
   selectedLoc = val;
   renderLocations();
-  // Highlight if it appears in top 5, otherwise just set selectedLoc
+  // Highlight if it appears in the recent 5, otherwise just set selectedLoc
   const btn = [...document.querySelectorAll('.loc-btn')].find(b=>b.textContent===val);
   if(btn){ document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
   else showToast('Location set: '+val);
@@ -406,10 +508,20 @@ function addLocation(){
 function selectAct(act,btn){
   selectedAct = act;
   document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
+  if(btn) btn.classList.add('on');
 }
 
-// ── Save activity ──────────────────────────────────────────
+function setSmartDefaults(){
+  const recent = lLoad().sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+  selectedAct = recent?.activity || 'hike';
+  selectedLoc = recent?.location || getRecentLocations()[0] || null;
+  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
+  const actBtn = [...document.querySelectorAll('.act-btn')].find(b => b.getAttribute('onclick')?.includes("'"+selectedAct+"'"));
+  if(actBtn) actBtn.classList.add('on');
+  renderLocations();
+}
+
+// ── Save / edit activity ───────────────────────────────────
 async function saveActivity(){
   if(!selectedAct){ showToast('Pick an activity type','err'); return; }
   if(!selectedLoc){ showToast('Pick a location','err'); return; }
@@ -419,38 +531,76 @@ async function saveActivity(){
   if(!dateVal){ showToast('Pick a date','err'); return; }
 
   const entry = {
-    id: Date.now(),
+    id: editingId || Date.now(),
     date: new Date(dateVal+'T12:00:00').toISOString(),
     activity: selectedAct,
-    location: selectedLoc,
+    location: canonicalLocationName(selectedLoc),
     distance: dist
   };
 
   const btn = document.getElementById('savebtn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span> Saving…';
+  btn.innerHTML = '<span class="spin"></span> '+(editingId?'Updating…':'Saving…');
+
+  const cache = lLoad();
+  const next = editingId ? cache.map(a => a.id===editingId ? entry : a) : [entry, ...cache];
+  lSave(next); lastFullData = next;
+  renderLocations(); updateStats(next); updateStreak(next);
+
   try{
-    const cache = lLoad(); cache.unshift(entry); lSave(cache);
-    await gsAdd(entry);
-    resetForm();
-    updateStats(lLoad()); updateStreak(lLoad());
-    showToast('🐾 Logged! '+dist.toFixed(1)+' mi at '+selectedLoc);
-    setTimeout(()=>document.querySelectorAll('.tab')[1].click(),700);
+    if(editingId) await gsUpdate(entry); else await gsAdd(entry);
+    showSheetStatus('Synced to Google Sheets.', 'ok');
+    showToast(editingId ? 'Activity updated' : '🐾 Logged! '+dist.toFixed(1)+' mi at '+entry.location);
   } catch(err){
-    resetForm();
+    showSheetStatus('Saved locally. Google Sheets could not be reached, so this device has the latest copy for now.', 'err');
     showToast('Saved locally (Sheets unreachable)','err');
-    setTimeout(()=>document.querySelectorAll('.tab')[1].click(),700);
   } finally {
+    const wasEditing = !!editingId;
+    cancelEdit(false);
     btn.disabled=false; btn.innerHTML='Log Activity 🐾';
+    renderLogFromData(lLoad());
+    setTimeout(()=>document.querySelectorAll('.tab')[1].click(), wasEditing ? 0 : 700);
   }
 }
 
 function resetForm(){
-  selectedAct=null; selectedLoc=null;
-  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on'));
+  editingId=null;
   document.getElementById('distance').value='';
   document.getElementById('activity-date').value=todayISO();
+  document.getElementById('savebtn').innerHTML='Log Activity 🐾';
+  document.getElementById('cancel-edit').classList.remove('show');
+  setSmartDefaults();
+}
+
+function editActivity(id){
+  const item = lLoad().find(a=>a.id===id);
+  if(!item){ showToast('Could not find that activity','err'); return; }
+  editingId = id;
+  selectedAct = item.activity;
+  selectedLoc = canonicalLocationName(item.location);
+  document.getElementById('activity-date').value = item.date.slice(0,10);
+  document.getElementById('distance').value = (+item.distance || 0).toFixed(1);
+  document.getElementById('savebtn').innerHTML='Update Activity';
+  document.getElementById('cancel-edit').classList.add('show');
+  setSmartDefaults();
+  selectedAct = item.activity;
+  selectedLoc = canonicalLocationName(item.location);
+  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
+  const actBtn = [...document.querySelectorAll('.act-btn')].find(b => b.getAttribute('onclick')?.includes("'"+selectedAct+"'"));
+  if(actBtn) actBtn.classList.add('on');
+  renderLocations();
+  document.querySelectorAll('.tab')[0].click();
+  showToast('Editing activity');
+}
+
+function cancelEdit(clearToast=true){
+  editingId=null;
+  document.getElementById('savebtn').innerHTML='Log Activity 🐾';
+  document.getElementById('cancel-edit').classList.remove('show');
+  document.getElementById('distance').value='';
+  document.getElementById('activity-date').value=todayISO();
+  setSmartDefaults();
+  if(clearToast) showToast('Edit canceled');
 }
 
 // ── Tabs ───────────────────────────────────────────────────
@@ -503,6 +653,7 @@ async function renderLog(){
     if(!Array.isArray(fresh)) throw new Error();
     const norm = fresh.map(a=>({...a,distance:+a.distance}));
     lSave(norm); lastFullData=norm;
+    renderLocations();
     renderLogFromData(norm);
   } catch{
     if(!cached.length) el.innerHTML='<div class="empty"><div class="ei">⚠️</div><p>Could not load data.</p></div>';
@@ -572,7 +723,10 @@ function renderLogFromData(arr){
         <div class="ac-dist-val">${(+a.distance).toFixed(1)}</div>
         <div class="ac-dist-unit">miles</div>
       </div>
-      <button class="del-btn" onclick="deleteActivity(${a.id})">✕</button>
+      <div class="card-actions">
+        <button class="edit-btn" onclick="editActivity(${a.id})">Edit</button>
+        <button class="del-btn" onclick="deleteActivity(${a.id})">✕</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -582,14 +736,26 @@ async function deleteActivity(id){
   if(!confirm('Remove this activity?')) return;
   const updated = lLoad().filter(a=>a.id!==id);
   lSave(updated); lastFullData=updated;
-  await gsDelete(id);
-  showToast('Activity removed');
   renderLogFromData(updated);
   updateStreak(updated);
+  try{
+    await gsDelete(id);
+    showSheetStatus('Synced to Google Sheets.', 'ok');
+    showToast('Activity removed');
+  } catch(err){
+    showSheetStatus('Removed locally. Google Sheets could not be reached, so this device has the latest copy for now.', 'err');
+    showToast('Removed locally (Sheets unreachable)','err');
+  }
 }
 
 // ── Helpers ────────────────────────────────────────────────
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+function showSheetStatus(msg,type='ok'){
+  const el=document.getElementById('sheet-status');
+  if(!el) return;
+  el.textContent=msg;
+  el.className='status-banner show '+(type==='err'?'err':'ok');
+}
 function showToast(msg,type=''){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className='toast'+(type==='err'?' err':''); t.classList.add('show');
@@ -598,7 +764,7 @@ function showToast(msg,type=''){
 
 // ── Init ───────────────────────────────────────────────────
 document.getElementById('activity-date').value = todayISO();
-renderLocations();
+setSmartDefaults();
 
 // Historical import (once only)
 async function importHistorical(){
@@ -616,17 +782,24 @@ async function importHistorical(){
 
 (async function init(){
   const cached = lLoad();
-  const seed = cached.length ? cached : HISTORICAL_DATA;
-  updateStats(seed); updateStreak(seed); lastFullData=seed;
+  const seed = cached.length ? cached : normalizeActivities(HISTORICAL_DATA);
+  lSave(seed);
+  updateStats(seed); updateStreak(seed); lastFullData=seed; setSmartDefaults();
   await importHistorical();
   try{
     const fresh = await gsRead();
     if(Array.isArray(fresh)&&fresh.length>0){
-      const norm = fresh.map(a=>({...a,distance:+a.distance}));
+      const norm = normalizeActivities(fresh);
       lSave(norm); lastFullData=norm;
+      setSmartDefaults();
       updateStats(norm); updateStreak(norm);
+      showSheetStatus('Connected to Google Sheets. Latest activities loaded.', 'ok');
+    } else {
+      showSheetStatus('Using local data. No Google Sheets rows were returned.', 'err');
     }
-  } catch{}
+  } catch(err){
+    showSheetStatus('Offline/local mode: Google Sheets could not be reached. New changes will still save on this device.', 'err');
+  }
 })();
 </script>
 </body>
