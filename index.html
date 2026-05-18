@@ -7,57 +7,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #111213;
-    --bg2: #181a1b;
-    --bg3: #212426;
-    --ink: #f0ede8;
-    --ink2: #b8b0a8;
-    --ink3: #7a7068;
-    --orange: #f97316;
-    --orange-dim: #4a2a0a;
-    --orange-deep: #2e1a08;
-    --amber: #fbbf24;
-    --amber-dim: #5c420a;
-    --red: #f87171;
-    --border: #2a2620;
-    --border2: #221e1a;
-    --card: #161412;
+    --bg:#111213; --bg2:#181a1b; --bg3:#212426;
+    --ink:#f0ede8; --ink2:#b8b0a8; --ink3:#7a7068;
+    --orange:#f97316; --orange-dim:#4a2a0a; --orange-deep:#2e1a08;
+    --red:#f87171; --border:#2a2620; --border2:#221e1a; --card:#161412;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'DM Mono',monospace;background:var(--bg);color:var(--ink);min-height:100vh}
-
-  /* NOISE */
-  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:998;opacity:1}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:998}
 
   /* HEADER */
-  header{padding:2rem 2rem 1.5rem;position:relative;border-bottom:1px solid var(--border);background:var(--bg2)}
-  header::after{content:'🐾';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:3.5rem;opacity:.15}
-  .h-eyebrow{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem;font-weight:500}
-  header h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,6vw,2.6rem);font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.5px}
+  header{padding:1.25rem 1.5rem;position:relative;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .h-left{}
+  .h-eyebrow{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:.3rem;font-weight:500}
+  header h1{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,5vw,2rem);font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.5px}
   header h1 em{color:var(--orange);font-style:normal}
-  .h-sub{font-size:.7rem;color:var(--ink3);margin-top:.5rem;letter-spacing:.05em}
+  .h-badge{background:var(--orange-deep);border:1px solid var(--orange-dim);border-radius:10px;padding:.5rem .9rem;text-align:center;flex-shrink:0}
+  .h-badge-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--orange);line-height:1}
+  .h-badge-lbl{font-size:.58rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem}
 
   /* STATS BAR */
   .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);background:var(--bg2)}
-  .stat{padding:.9rem 1.2rem;border-right:1px solid var(--border);text-align:center}
+  .stat{padding:.8rem 1rem;border-right:1px solid var(--border);text-align:center}
   .stat:last-child{border-right:none}
-  .stat-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:var(--orange);line-height:1}
-  .stat-lbl{font-size:.58rem;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
+  .stat-val{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--orange);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stat-lbl{font-size:.56rem;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
 
   /* TABS */
   .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem}
   .tab{padding:.9rem 1.2rem;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--ink3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
   .tab:hover{color:var(--orange)}
   .tab.active{color:var(--orange);border-bottom-color:var(--orange)}
-  .panel{display:none}
-  .panel.active{display:block}
+  .panel{display:none}.panel.active{display:block}
 
   /* FORM */
-  .fw{max-width:580px;margin:0 auto;padding:2rem 1.5rem 4rem}
-  .field{margin-bottom:1.5rem}
-  .field label{display:block;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.6rem;font-weight:500}
+  .fw{max-width:580px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+  .field{margin-bottom:1.4rem}
+  .field label{display:block;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.55rem;font-weight:500}
 
-  /* ACTIVITY TYPE PILLS */
+  /* ACTIVITY BUTTONS */
   .activity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
   .act-btn{padding:.85rem 1rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg3);cursor:pointer;transition:all .2s;text-align:left;font-family:'DM Mono',monospace}
   .act-btn:hover{border-color:var(--orange-dim);background:var(--orange-deep)}
@@ -77,7 +65,7 @@
   .add-loc-row input{flex:1;padding:.65rem .9rem;font-family:'DM Mono',monospace;font-size:.8rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:7px;color:var(--ink);outline:none;min-width:0}
   .add-loc-row input:focus{border-color:var(--orange-dim)}
   .add-loc-row input::placeholder{color:var(--ink3)}
-  .add-loc-row button{padding:.65rem 1rem;background:var(--orange-dim);border:1.5px solid var(--green-dim);border-radius:7px;color:var(--orange);font-family:'DM Mono',monospace;font-size:.75rem;cursor:pointer;white-space:nowrap;transition:all .15s}
+  .add-loc-row button{padding:.65rem 1rem;background:var(--orange-dim);border:1.5px solid var(--orange-dim);border-radius:7px;color:var(--orange);font-family:'DM Mono',monospace;font-size:.75rem;cursor:pointer;white-space:nowrap;transition:all .15s}
   .add-loc-row button:hover{background:var(--orange);color:#fff}
 
   /* DISTANCE */
@@ -87,8 +75,10 @@
   .dist-wrap input::placeholder{color:var(--ink3);font-size:1rem;font-weight:400}
   .dist-unit{position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:.72rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
 
-  /* DATE */
-  .date-display{padding:.75rem 1rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;font-size:.82rem;color:var(--ink2);display:flex;align-items:center;gap:.5rem}
+  /* DATE PICKER */
+  .date-input{width:100%;padding:.75rem 1rem;font-family:'DM Mono',monospace;font-size:.85rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;color:var(--ink2);outline:none;transition:border-color .2s;-webkit-appearance:none}
+  .date-input:focus{border-color:var(--orange-dim)}
+  .date-input::-webkit-calendar-picker-indicator{filter:invert(.5)}
 
   /* SAVE BUTTON */
   .savebtn{width:100%;padding:1rem 1.5rem;background:var(--orange);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-top:2rem;transition:all .2s;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:.5rem}
@@ -97,39 +87,51 @@
 
   /* LOG */
   .log-wrap{padding:1.5rem;max-width:800px;margin:0 auto}
-  .log-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.5rem}
+  .log-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:.5rem;flex-wrap:wrap}
   .log-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700}
   .log-count{font-size:.68rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
 
+  /* SEARCH */
+  .search-wrap{position:relative;margin-bottom:1rem}
+  .search-wrap input{width:100%;padding:.65rem 1rem .65rem 2.2rem;font-family:'DM Mono',monospace;font-size:.8rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;color:var(--ink);outline:none;transition:border-color .2s}
+  .search-wrap input:focus{border-color:var(--orange-dim)}
+  .search-wrap input::placeholder{color:var(--ink3)}
+  .search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;opacity:.5}
+  .search-clear{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;padding:0;display:none}
+
   /* FILTER BAR */
   .filter-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem}
-  .filter-btn{padding:.3rem .75rem;border:1.5px solid var(--border);border-radius:20px;background:none;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);cursor:pointer;transition:all .15s}
+  .filter-btn{padding:.3rem .75rem;border:1.5px solid var(--border);border-radius:20px;background:none;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);cursor:pointer;transition:all .15s;white-space:nowrap}
   .filter-btn:hover{border-color:var(--orange-dim);color:var(--ink)}
   .filter-btn.on{border-color:var(--orange);color:var(--orange);background:var(--orange-deep)}
 
   /* ACTIVITY CARDS */
-  .act-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:.75rem;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;transition:all .2s;position:relative;overflow:hidden}
+  .act-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.65rem;display:grid;grid-template-columns:auto 1fr auto auto;gap:.75rem;align-items:center;transition:transform .15s;position:relative;overflow:hidden}
   .act-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
   .act-card.hike::before{background:#f97316}
   .act-card.trail-run::before{background:#fb923c}
   .act-card.mtb::before{background:#60a5fa}
   .act-card.ruck::before{background:#a78bfa}
-  .act-card:hover{border-color:var(--border2);transform:translateX(3px)}
-  .ac-icon{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
-  .hike .ac-icon{background:#2e1a08}
-  .trail-run .ac-icon{background:#3a1f0a}
-  .mtb .ac-icon{background:#0a1f3a}
-  .ruck .ac-icon{background:#1f1a3a}
+  .act-card:hover{transform:translateX(3px)}
+  .ac-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+  .hike .ac-icon{background:#2e1a08}.trail-run .ac-icon{background:#3a1f0a}.mtb .ac-icon{background:#0a1f3a}.ruck .ac-icon{background:#1f1a3a}
   .ac-main{min-width:0}
-  .ac-type{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--ink);text-transform:capitalize}
-  .ac-loc{font-size:.72rem;color:var(--ink3);margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ac-date{font-size:.62rem;color:var(--ink3);margin-top:.3rem;letter-spacing:.04em}
+  .ac-type{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;color:var(--ink);text-transform:capitalize}
+  .ac-loc{font-size:.7rem;color:var(--ink3);margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ac-date{font-size:.6rem;color:var(--ink3);margin-top:.3rem;letter-spacing:.03em}
   .ac-dist{text-align:right;flex-shrink:0}
-  .ac-dist-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--orange);line-height:1}
-  .ac-dist-unit{font-size:.6rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-top:.15rem}
-  .del-btn{position:absolute;top:.7rem;right:.7rem;background:none;border:1px solid var(--border);border-radius:4px;padding:.15rem .35rem;font-size:.6rem;color:var(--ink3);cursor:pointer;transition:all .15s;opacity:0}
-  .act-card:hover .del-btn{opacity:1}
+  .ac-dist-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--orange);line-height:1}
+  .ac-dist-unit{font-size:.58rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-top:.1rem}
+  /* Delete — always visible, not hover-only */
+  .del-btn{flex-shrink:0;background:none;border:1px solid var(--border);border-radius:6px;padding:.35rem .5rem;font-size:.7rem;color:var(--ink3);cursor:pointer;transition:all .15s;line-height:1}
   .del-btn:hover{background:#3a0a0a;border-color:var(--red);color:var(--red)}
+
+  /* PAGINATION */
+  .pagination{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:1.25rem;padding-bottom:2rem}
+  .pg-btn{padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:6px;background:none;font-family:'DM Mono',monospace;font-size:.7rem;color:var(--ink3);cursor:pointer;transition:all .15s}
+  .pg-btn:hover:not(:disabled){border-color:var(--orange);color:var(--orange)}
+  .pg-btn:disabled{opacity:.3;cursor:not-allowed}
+  .pg-info{font-size:.68rem;color:var(--ink3);letter-spacing:.05em}
 
   .empty{text-align:center;padding:4rem 2rem;color:var(--ink3)}
   .empty .ei{font-size:3rem;margin-bottom:1rem;opacity:.4}
@@ -138,9 +140,9 @@
   /* TOAST */
   .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--orange);color:#fff;padding:.7rem 1.4rem;border-radius:40px;font-size:.78rem;font-family:'DM Mono',monospace;font-weight:500;letter-spacing:.05em;transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:1000;box-shadow:0 8px 30px rgba(249,115,22,.3);white-space:nowrap}
   .toast.show{transform:translateX(-50%) translateY(0)}
-  .toast.err{background:var(--red);color:#fff;box-shadow:0 8px 30px rgba(248,113,113,.3)}
+  .toast.err{background:var(--red);box-shadow:0 8px 30px rgba(248,113,113,.3)}
 
-  .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
   @keyframes sp{to{transform:rotate(360deg)}}
 
   @media(max-width:500px){
@@ -148,19 +150,23 @@
     .stats-bar .stat:nth-child(2){border-right:none}
     .stats-bar .stat:nth-child(3){border-top:1px solid var(--border)}
     .stats-bar .stat:nth-child(4){border-top:1px solid var(--border);border-right:none}
-    .activity-grid{grid-template-columns:repeat(2,1fr)}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="h-eyebrow">Activity Tracker</div>
-  <h1>Trail <em>Dog</em></h1>
-  <div class="h-sub">Adventures logged · Synced to Google Sheets</div>
+  <div class="h-left">
+    <div class="h-eyebrow">Activity Tracker</div>
+    <h1>Trail <em>Dog</em></h1>
+  </div>
+  <div class="h-badge" id="streak-badge">
+    <div class="h-badge-val" id="streak-val">—</div>
+    <div class="h-badge-lbl" id="streak-lbl">loading</div>
+  </div>
 </header>
 
-<div class="stats-bar" id="stats-bar">
+<div class="stats-bar">
   <div class="stat"><div class="stat-val" id="stat-total">—</div><div class="stat-lbl">Activities</div></div>
   <div class="stat"><div class="stat-val" id="stat-miles">—</div><div class="stat-lbl">Total Miles</div></div>
   <div class="stat"><div class="stat-val" id="stat-longest">—</div><div class="stat-lbl">Longest</div></div>
@@ -175,38 +181,27 @@
 <!-- LOG ENTRY -->
 <div id="panel-log-entry" class="panel active">
   <div class="fw">
-
     <div class="field">
       <label>Date</label>
-      <div class="date-display" id="ddate">📅 —</div>
+      <input type="date" class="date-input" id="activity-date">
     </div>
-
     <div class="field">
       <label>Activity Type</label>
       <div class="activity-grid">
-        <button class="act-btn" data-act="hike" onclick="selectAct('hike',this)">
-          <span class="act-icon">🥾</span>
-          <span class="act-name">Hike</span>
-          <span class="act-sub">Trail hiking</span>
+        <button class="act-btn" onclick="selectAct('hike',this)">
+          <span class="act-icon">🥾</span><span class="act-name">Hike</span><span class="act-sub">Trail hiking</span>
         </button>
-        <button class="act-btn" data-act="trail-run" onclick="selectAct('trail-run',this)">
-          <span class="act-icon">🏃</span>
-          <span class="act-name">Trail Run</span>
-          <span class="act-sub">Off-road running</span>
+        <button class="act-btn" onclick="selectAct('trail-run',this)">
+          <span class="act-icon">🏃</span><span class="act-name">Trail Run</span><span class="act-sub">Off-road running</span>
         </button>
-        <button class="act-btn" data-act="mtb" onclick="selectAct('mtb',this)">
-          <span class="act-icon">🚵</span>
-          <span class="act-name">MTB</span>
-          <span class="act-sub">Mountain biking</span>
+        <button class="act-btn" onclick="selectAct('mtb',this)">
+          <span class="act-icon">🚵</span><span class="act-name">MTB</span><span class="act-sub">Mountain biking</span>
         </button>
-        <button class="act-btn" data-act="ruck" onclick="selectAct('ruck',this)">
-          <span class="act-icon">🎒</span>
-          <span class="act-name">Ruck</span>
-          <span class="act-sub">Weighted hike</span>
+        <button class="act-btn" onclick="selectAct('ruck',this)">
+          <span class="act-icon">🎒</span><span class="act-name">Ruck</span><span class="act-sub">Weighted hike</span>
         </button>
       </div>
     </div>
-
     <div class="field">
       <label>Location</label>
       <div class="loc-list" id="loc-list"></div>
@@ -215,7 +210,6 @@
         <button onclick="addLocation()">+ Add</button>
       </div>
     </div>
-
     <div class="field">
       <label>Distance</label>
       <div class="dist-wrap">
@@ -223,11 +217,7 @@
         <span class="dist-unit">mi</span>
       </div>
     </div>
-
-    <button class="savebtn" id="savebtn" onclick="saveActivity()">
-      Log Activity 🐾
-    </button>
-
+    <button class="savebtn" id="savebtn" onclick="saveActivity()">Log Activity 🐾</button>
   </div>
 </div>
 
@@ -236,7 +226,12 @@
   <div class="log-wrap">
     <div class="log-header">
       <div class="log-title">Activity Log</div>
-      <div class="log-count" id="log-count">0 activities</div>
+      <div class="log-count" id="log-count">—</div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search by location, activity…" oninput="onSearch()">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
     </div>
     <div class="filter-bar" id="filter-bar">
       <button class="filter-btn on" data-filter="all" onclick="setFilter('all',this)">All</button>
@@ -246,87 +241,152 @@
       <button class="filter-btn" data-filter="ruck" onclick="setFilter('ruck',this)">🎒 Ruck</button>
     </div>
     <div id="activity-log"></div>
+    <div class="pagination" id="pagination" style="display:none">
+      <button class="pg-btn" id="pg-prev" onclick="changePage(-1)">← Prev</button>
+      <span class="pg-info" id="pg-info"></span>
+      <button class="pg-btn" id="pg-next" onclick="changePage(1)">Next →</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Historical import data ────────────────────────────────
-// 934 entries pre-loaded from Goose_hike_tracker.xlsx
+// ── Historical data ────────────────────────────────────────
 const HISTORICAL_DATA = [{"id": 1662422400000, "date": "2022-09-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1662595200001, "date": "2022-09-08T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1662854400002, "date": "2022-09-11T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.0}, {"id": 1662940800003, "date": "2022-09-12T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.0}, {"id": 1663027200004, "date": "2022-09-13T00:00:00", "activity": "hike", "location": "Danforth Creek", "distance": 1.0}, {"id": 1663200000005, "date": "2022-09-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1663286400006, "date": "2022-09-16T00:00:00", "activity": "hike", "location": "Tripp Conservation Land", "distance": 1.0}, {"id": 1663372800007, "date": "2022-09-17T00:00:00", "activity": "hike", "location": "Marble Hill", "distance": 1.0}, {"id": 1663459200008, "date": "2022-09-18T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.0}, {"id": 1663632000009, "date": "2022-09-20T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1663718400010, "date": "2022-09-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1663891200011, "date": "2022-09-23T00:00:00", "activity": "hike", "location": "Tree House", "distance": 1.5}, {"id": 1663977600012, "date": "2022-09-24T00:00:00", "activity": "hike", "location": "Muller Trails", "distance": 2.0}, {"id": 1664150400013, "date": "2022-09-26T00:00:00", "activity": "hike", "location": "Guggins Brook", "distance": 1.1}, {"id": 1664236800014, "date": "2022-09-27T00:00:00", "activity": "trail-run", "location": "Horse Meadows Knoll", "distance": 2.0}, {"id": 1664323200015, "date": "2022-09-28T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1664409600016, "date": "2022-09-29T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.7}, {"id": 1664496000017, "date": "2022-09-30T00:00:00", "activity": "hike", "location": "Delaney", "distance": 1.3}, {"id": 1664496000018, "date": "2022-09-30T00:00:00", "activity": "hike", "location": "Marble Hill", "distance": 2.6}, {"id": 1664582400019, "date": "2022-10-01T00:00:00", "activity": "hike", "location": "Eastern Greenway", "distance": 0.4}, {"id": 1664582400020, "date": "2022-10-01T00:00:00", "activity": "hike", "location": "Tripp Conservation Land", "distance": 1.6}, {"id": 1664668800021, "date": "2022-10-02T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 2.1}, {"id": 1664755200022, "date": "2022-10-03T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.9}, {"id": 1664841600023, "date": "2022-10-04T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1664928000024, "date": "2022-10-05T00:00:00", "activity": "hike", "location": "Mt Pisgah", "distance": 2.5}, {"id": 1665014400025, "date": "2022-10-06T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.1}, {"id": 1665100800026, "date": "2022-10-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1665360000027, "date": "2022-10-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1665446400028, "date": "2022-10-11T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.2}, {"id": 1665532800029, "date": "2022-10-12T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1665619200030, "date": "2022-10-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1665705600031, "date": "2022-10-14T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.3}, {"id": 1665878400032, "date": "2022-10-16T00:00:00", "activity": "trail-run", "location": "Annie Moore", "distance": 1.5}, {"id": 1665964800033, "date": "2022-10-17T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.7}, {"id": 1666051200034, "date": "2022-10-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1666137600035, "date": "2022-10-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1666224000036, "date": "2022-10-20T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.5}, {"id": 1666310400037, "date": "2022-10-21T00:00:00", "activity": "trail-run", "location": "Horse Meadows Knoll", "distance": 2.0}, {"id": 1666483200038, "date": "2022-10-23T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.4}, {"id": 1666569600039, "date": "2022-10-24T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.4}, {"id": 1666656000040, "date": "2022-10-25T00:00:00", "activity": "hike", "location": "Bolton common", "distance": 2.2}, {"id": 1666742400041, "date": "2022-10-26T00:00:00", "activity": "hike", "location": "Heath hen meadow brook", "distance": 1.4}, {"id": 1666915200042, "date": "2022-10-28T00:00:00", "activity": "hike", "location": "Lyons-Cutler", "distance": 2.8}, {"id": 1667001600043, "date": "2022-10-29T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 2.5}, {"id": 1667174400044, "date": "2022-10-31T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 1.8}, {"id": 1667260800045, "date": "2022-11-01T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.0}, {"id": 1667347200046, "date": "2022-11-02T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1667520000047, "date": "2022-11-04T00:00:00", "activity": "hike", "location": "Marble hill", "distance": 2.1}, {"id": 1667606400048, "date": "2022-11-05T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.1}, {"id": 1667779200049, "date": "2022-11-07T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1667952000050, "date": "2022-11-09T00:00:00", "activity": "trail-run", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1668038400051, "date": "2022-11-10T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.3}, {"id": 1668124800052, "date": "2022-11-11T00:00:00", "activity": "hike", "location": "Marble hill", "distance": 2.3}, {"id": 1668297600053, "date": "2022-11-13T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.2}, {"id": 1668384000054, "date": "2022-11-14T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1668556800055, "date": "2022-11-16T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1668816000056, "date": "2022-11-19T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.0}, {"id": 1668902400057, "date": "2022-11-20T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.3}, {"id": 1668988800058, "date": "2022-11-21T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1669248000059, "date": "2022-11-24T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.3}, {"id": 1669334400060, "date": "2022-11-25T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 2.1}, {"id": 1669507200061, "date": "2022-11-27T00:00:00", "activity": "hike", "location": "Lyons-Cutler", "distance": 1.9}, {"id": 1669593600062, "date": "2022-11-28T00:00:00", "activity": "hike", "location": "Guggins Brook", "distance": 0.9}, {"id": 1669680000063, "date": "2022-11-29T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.9}, {"id": 1669766400064, "date": "2022-11-30T00:00:00", "activity": "hike", "location": "Rattlesnake hiLl", "distance": 1.8}, {"id": 1670112000065, "date": "2022-12-04T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 2.0}, {"id": 1670284800066, "date": "2022-12-06T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1670371200067, "date": "2022-12-07T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1670457600068, "date": "2022-12-08T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1670544000069, "date": "2022-12-09T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 1.9}, {"id": 1670630400070, "date": "2022-12-10T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1670716800071, "date": "2022-12-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1671148800072, "date": "2022-12-16T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.6}, {"id": 1671321600073, "date": "2022-12-18T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1671408000074, "date": "2022-12-19T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.3}, {"id": 1671580800075, "date": "2022-12-21T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1671926400076, "date": "2022-12-25T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1672012800077, "date": "2022-12-26T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1672099200078, "date": "2022-12-27T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1672185600079, "date": "2022-12-28T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1672272000080, "date": "2022-12-29T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1672358400081, "date": "2022-12-30T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.5}, {"id": 1672444800082, "date": "2022-12-31T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1672531200083, "date": "2023-01-01T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1672531200084, "date": "2023-01-01T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.5}, {"id": 1672617600085, "date": "2023-01-02T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.3}, {"id": 1672704000086, "date": "2023-01-03T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1672963200087, "date": "2023-01-06T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1673222400088, "date": "2023-01-09T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1673913600089, "date": "2023-01-17T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.0}, {"id": 1674000000090, "date": "2023-01-18T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.6}, {"id": 1674172800091, "date": "2023-01-20T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1674259200092, "date": "2023-01-21T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1674777600093, "date": "2023-01-27T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.0}, {"id": 1675641600094, "date": "2023-02-06T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1675728000095, "date": "2023-02-07T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1675987200096, "date": "2023-02-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1676160000097, "date": "2023-02-12T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.1}, {"id": 1676246400098, "date": "2023-02-13T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1676332800099, "date": "2023-02-14T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1676592000100, "date": "2023-02-17T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.5}, {"id": 1676678400101, "date": "2023-02-18T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 2.0}, {"id": 1676764800102, "date": "2023-02-19T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1677369600103, "date": "2023-02-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1677456000104, "date": "2023-02-27T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1677628800105, "date": "2023-03-01T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1677715200106, "date": "2023-03-02T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.9}, {"id": 1677801600107, "date": "2023-03-03T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 2.2}, {"id": 1678060800108, "date": "2023-03-06T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1678320000109, "date": "2023-03-09T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1678838400110, "date": "2023-03-15T00:00:00", "activity": "hike", "location": "Lyons-Cutler", "distance": 1.9}, {"id": 1678924800111, "date": "2023-03-16T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1679270400112, "date": "2023-03-20T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1679356800113, "date": "2023-03-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1679616000114, "date": "2023-03-24T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1679702400115, "date": "2023-03-25T00:00:00", "activity": "hike", "location": "Guggins brook", "distance": 1.0}, {"id": 1679702400116, "date": "2023-03-25T00:00:00", "activity": "hike", "location": "Marble hill", "distance": 2.1}, {"id": 1679788800117, "date": "2023-03-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.9}, {"id": 1679875200118, "date": "2023-03-27T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1680480000119, "date": "2023-04-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1680739200120, "date": "2023-04-06T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1680825600121, "date": "2023-04-07T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.9}, {"id": 1680912000122, "date": "2023-04-08T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 1.9}, {"id": 1681084800123, "date": "2023-04-10T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1681171200124, "date": "2023-04-11T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1681344000125, "date": "2023-04-13T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.3}, {"id": 1681516800126, "date": "2023-04-15T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1681603200127, "date": "2023-04-16T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1682726400128, "date": "2023-04-29T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.0}, {"id": 1682812800129, "date": "2023-04-30T00:00:00", "activity": "hike", "location": "Annie moore", "distance": 1.7}, {"id": 1683158400130, "date": "2023-05-04T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1683244800131, "date": "2023-05-05T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.1}, {"id": 1683504000132, "date": "2023-05-08T00:00:00", "activity": "hike", "location": "Scorgie land", "distance": 1.5}, {"id": 1683763200133, "date": "2023-05-11T00:00:00", "activity": "hike", "location": "Guggins brook", "distance": 1.2}, {"id": 1683849600134, "date": "2023-05-12T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.3}, {"id": 1684108800135, "date": "2023-05-15T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.8}, {"id": 1684281600136, "date": "2023-05-17T00:00:00", "activity": "hike", "location": "Scorgie land", "distance": 1.0}, {"id": 1684454400137, "date": "2023-05-19T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1684540800138, "date": "2023-05-20T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1684627200139, "date": "2023-05-21T00:00:00", "activity": "hike", "location": "Jericho Forest", "distance": 1.4}, {"id": 1684972800140, "date": "2023-05-25T00:00:00", "activity": "hike", "location": "Marble hill", "distance": 1.5}, {"id": 1685059200141, "date": "2023-05-26T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.6}, {"id": 1685145600142, "date": "2023-05-27T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.9}, {"id": 1685318400143, "date": "2023-05-29T00:00:00", "activity": "hike", "location": "Bowers Springs", "distance": 1.6}, {"id": 1685577600144, "date": "2023-06-01T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.5}, {"id": 1685836800145, "date": "2023-06-04T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 2.2}, {"id": 1685923200146, "date": "2023-06-05T00:00:00", "activity": "hike", "location": "Rattlesnake hill", "distance": 1.9}, {"id": 1686355200147, "date": "2023-06-10T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.4}, {"id": 1686441600148, "date": "2023-06-11T00:00:00", "activity": "hike", "location": "Bowers Springs", "distance": 0.7}, {"id": 1686614400149, "date": "2023-06-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1686787200150, "date": "2023-06-15T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1686960000151, "date": "2023-06-17T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.9}, {"id": 1687132800152, "date": "2023-06-19T00:00:00", "activity": "hike", "location": "Bowers Springs", "distance": 0.7}, {"id": 1687219200153, "date": "2023-06-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1687392000154, "date": "2023-06-22T00:00:00", "activity": "hike", "location": "Other", "distance": 1.7}, {"id": 1687651200155, "date": "2023-06-25T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.6}, {"id": 1688083200156, "date": "2023-06-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1688169600157, "date": "2023-07-01T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.9}, {"id": 1688256000158, "date": "2023-07-02T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1688860800159, "date": "2023-07-09T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1689120000160, "date": "2023-07-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1689206400161, "date": "2023-07-13T00:00:00", "activity": "hike", "location": "Bowers Springs", "distance": 0.5}, {"id": 1689465600162, "date": "2023-07-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1689552000163, "date": "2023-07-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1689724800164, "date": "2023-07-19T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1689811200165, "date": "2023-07-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1689897600166, "date": "2023-07-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1690329600167, "date": "2023-07-26T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1690502400168, "date": "2023-07-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1690675200169, "date": "2023-07-30T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1691280000170, "date": "2023-08-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1691452800171, "date": "2023-08-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1691539200172, "date": "2023-08-09T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1691625600173, "date": "2023-08-10T00:00:00", "activity": "hike", "location": "Bowers Springs", "distance": 1.0}, {"id": 1691712000174, "date": "2023-08-11T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1691798400175, "date": "2023-08-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1691971200176, "date": "2023-08-14T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1692144000177, "date": "2023-08-16T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1692230400178, "date": "2023-08-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1692662400179, "date": "2023-08-22T00:00:00", "activity": "trail-run", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1692748800180, "date": "2023-08-23T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1692835200181, "date": "2023-08-24T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1693008000182, "date": "2023-08-26T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1693180800183, "date": "2023-08-28T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1693180800184, "date": "2023-08-28T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1693267200185, "date": "2023-08-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1693440000186, "date": "2023-08-31T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1693699200187, "date": "2023-09-03T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.8}, {"id": 1693785600188, "date": "2023-09-04T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1693872000189, "date": "2023-09-05T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1693958400190, "date": "2023-09-06T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1694044800191, "date": "2023-09-07T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1694217600192, "date": "2023-09-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1694390400193, "date": "2023-09-11T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1694476800194, "date": "2023-09-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1694649600195, "date": "2023-09-14T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1694908800196, "date": "2023-09-17T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1695081600197, "date": "2023-09-19T00:00:00", "activity": "hike", "location": "Other", "distance": 2.4}, {"id": 1695168000198, "date": "2023-09-20T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1695254400199, "date": "2023-09-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.3}, {"id": 1695513600200, "date": "2023-09-24T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1695600000201, "date": "2023-09-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1695686400202, "date": "2023-09-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1695772800203, "date": "2023-09-27T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1695859200204, "date": "2023-09-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1696032000205, "date": "2023-09-30T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.0}, {"id": 1696118400206, "date": "2023-10-01T00:00:00", "activity": "hike", "location": "Bowers Springs", "distance": 1.0}, {"id": 1696723200207, "date": "2023-10-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1696809600208, "date": "2023-10-09T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.9}, {"id": 1696896000209, "date": "2023-10-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1696982400210, "date": "2023-10-11T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1697068800211, "date": "2023-10-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1697241600212, "date": "2023-10-14T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1697414400213, "date": "2023-10-16T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1697414400214, "date": "2023-10-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.1}, {"id": 1697587200215, "date": "2023-10-18T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1697760000216, "date": "2023-10-20T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1697846400217, "date": "2023-10-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1698019200218, "date": "2023-10-23T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1698105600219, "date": "2023-10-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1698278400220, "date": "2023-10-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1698278400221, "date": "2023-10-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.4}, {"id": 1698364800222, "date": "2023-10-27T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1698451200223, "date": "2023-10-28T00:00:00", "activity": "hike", "location": "Marble Hill", "distance": 1.6}, {"id": 1698537600224, "date": "2023-10-29T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.1}, {"id": 1698624000225, "date": "2023-10-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1698710400226, "date": "2023-10-31T00:00:00", "activity": "hike", "location": "Delaney", "distance": 2.9}, {"id": 1698796800227, "date": "2023-11-01T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1698796800228, "date": "2023-11-01T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1698883200229, "date": "2023-11-02T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1698883200230, "date": "2023-11-02T00:00:00", "activity": "hike", "location": "Marble Hill", "distance": 1.0}, {"id": 1698969600231, "date": "2023-11-03T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 0.7}, {"id": 1698969600232, "date": "2023-11-03T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1699056000233, "date": "2023-11-04T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1699142400234, "date": "2023-11-05T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1699228800235, "date": "2023-11-06T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1699315200236, "date": "2023-11-07T00:00:00", "activity": "hike", "location": "Philbin Land", "distance": 1.4}, {"id": 1699401600237, "date": "2023-11-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1699401600238, "date": "2023-11-08T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.5}, {"id": 1699488000239, "date": "2023-11-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1699574400240, "date": "2023-11-10T00:00:00", "activity": "hike", "location": "Lyons-Cutler", "distance": 2.0}, {"id": 1699660800241, "date": "2023-11-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1699747200242, "date": "2023-11-12T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.7}, {"id": 1699833600243, "date": "2023-11-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1699920000244, "date": "2023-11-14T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1700006400245, "date": "2023-11-15T00:00:00", "activity": "hike", "location": "Delaney", "distance": 1.0}, {"id": 1700006400246, "date": "2023-11-15T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1700092800247, "date": "2023-11-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1700092800248, "date": "2023-11-16T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1700265600249, "date": "2023-11-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1700352000250, "date": "2023-11-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1700438400251, "date": "2023-11-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1700697600252, "date": "2023-11-23T00:00:00", "activity": "ruck", "location": "Delaney", "distance": 2.9}, {"id": 1700784000253, "date": "2023-11-24T00:00:00", "activity": "ruck", "location": "Callahan State Park", "distance": 2.8}, {"id": 1700870400254, "date": "2023-11-25T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.1}, {"id": 1700956800255, "date": "2023-11-26T00:00:00", "activity": "ruck", "location": "Guggins Brook", "distance": 1.4}, {"id": 1701043200256, "date": "2023-11-27T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1701043200257, "date": "2023-11-27T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.5}, {"id": 1701129600258, "date": "2023-11-28T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.9}, {"id": 1701216000259, "date": "2023-11-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1701302400260, "date": "2023-11-30T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1701302400261, "date": "2023-11-30T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.8}, {"id": 1701388800262, "date": "2023-12-01T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1701388800263, "date": "2023-12-01T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1701475200264, "date": "2023-12-02T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1701561600265, "date": "2023-12-03T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1701648000266, "date": "2023-12-04T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 2.3}, {"id": 1701734400267, "date": "2023-12-05T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1701993600268, "date": "2023-12-08T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1701993600269, "date": "2023-12-08T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1702080000270, "date": "2023-12-09T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.6}, {"id": 1702252800271, "date": "2023-12-11T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1702252800272, "date": "2023-12-11T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1702339200273, "date": "2023-12-12T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1702425600274, "date": "2023-12-13T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1702512000275, "date": "2023-12-14T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1702512000276, "date": "2023-12-14T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1702684800277, "date": "2023-12-16T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1702771200278, "date": "2023-12-17T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 3.1}, {"id": 1702944000279, "date": "2023-12-19T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1702944000280, "date": "2023-12-19T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.2}, {"id": 1703030400281, "date": "2023-12-20T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1703030400282, "date": "2023-12-20T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 2.0}, {"id": 1703116800283, "date": "2023-12-21T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1703116800284, "date": "2023-12-21T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1703203200285, "date": "2023-12-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1703203200286, "date": "2023-12-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1703289600287, "date": "2023-12-23T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.9}, {"id": 1703376000288, "date": "2023-12-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1703462400289, "date": "2023-12-25T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1703548800290, "date": "2023-12-26T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1703635200291, "date": "2023-12-27T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1703721600292, "date": "2023-12-28T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.5}, {"id": 1703808000293, "date": "2023-12-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1703808000294, "date": "2023-12-29T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1703894400295, "date": "2023-12-30T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 2.0}, {"id": 1703980800296, "date": "2023-12-31T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1704067200297, "date": "2024-01-01T00:00:00", "activity": "hike", "location": "Other", "distance": 1.9}, {"id": 1704153600298, "date": "2024-01-02T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1704153600299, "date": "2024-01-02T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1704240000300, "date": "2024-01-03T00:00:00", "activity": "ruck", "location": "Other", "distance": 2.5}, {"id": 1704326400301, "date": "2024-01-04T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1704412800302, "date": "2024-01-05T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1704412800303, "date": "2024-01-05T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1704499200304, "date": "2024-01-06T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1704499200305, "date": "2024-01-06T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.2}, {"id": 1704672000306, "date": "2024-01-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1704844800307, "date": "2024-01-10T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1704931200308, "date": "2024-01-11T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1704931200309, "date": "2024-01-11T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1705017600310, "date": "2024-01-12T00:00:00", "activity": "ruck", "location": "Other", "distance": 2.4}, {"id": 1705017600311, "date": "2024-01-12T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1705104000312, "date": "2024-01-13T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1705276800313, "date": "2024-01-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1705276800314, "date": "2024-01-15T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 2.0}, {"id": 1705449600315, "date": "2024-01-17T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1705536000316, "date": "2024-01-18T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1705536000317, "date": "2024-01-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1705622400318, "date": "2024-01-19T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1705622400319, "date": "2024-01-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1705708800320, "date": "2024-01-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1705795200321, "date": "2024-01-21T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1705795200322, "date": "2024-01-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1705881600323, "date": "2024-01-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1705881600324, "date": "2024-01-22T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1705968000325, "date": "2024-01-23T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1706140800326, "date": "2024-01-25T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1706227200327, "date": "2024-01-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1706313600328, "date": "2024-01-27T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.4}, {"id": 1706400000329, "date": "2024-01-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1706486400330, "date": "2024-01-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1706918400331, "date": "2024-02-03T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1707004800332, "date": "2024-02-04T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1707091200333, "date": "2024-02-05T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1707091200334, "date": "2024-02-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1707177600335, "date": "2024-02-06T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1707177600336, "date": "2024-02-06T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.8}, {"id": 1707350400337, "date": "2024-02-08T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1707350400338, "date": "2024-02-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1707436800339, "date": "2024-02-09T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1707436800340, "date": "2024-02-09T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 2.0}, {"id": 1707609600341, "date": "2024-02-11T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.3}, {"id": 1707696000342, "date": "2024-02-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1707696000343, "date": "2024-02-12T00:00:00", "activity": "hike", "location": "Other", "distance": 1.6}, {"id": 1707782400344, "date": "2024-02-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1707868800345, "date": "2024-02-14T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1707955200346, "date": "2024-02-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1708041600347, "date": "2024-02-16T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1708041600348, "date": "2024-02-16T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.4}, {"id": 1708128000349, "date": "2024-02-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1708214400350, "date": "2024-02-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1708300800351, "date": "2024-02-19T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1708300800352, "date": "2024-02-19T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.8}, {"id": 1708387200353, "date": "2024-02-20T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1708473600354, "date": "2024-02-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1708560000355, "date": "2024-02-22T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1708560000356, "date": "2024-02-22T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 2.0}, {"id": 1708646400357, "date": "2024-02-23T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1708732800358, "date": "2024-02-24T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1708819200359, "date": "2024-02-25T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1708905600360, "date": "2024-02-26T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1708992000361, "date": "2024-02-27T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1709164800362, "date": "2024-02-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1709251200363, "date": "2024-03-01T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1709251200364, "date": "2024-03-01T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1709510400365, "date": "2024-03-04T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1709596800366, "date": "2024-03-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1709769600367, "date": "2024-03-07T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1709769600368, "date": "2024-03-07T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1709856000369, "date": "2024-03-08T00:00:00", "activity": "hike", "location": "Other", "distance": 1.0}, {"id": 1709942400370, "date": "2024-03-09T00:00:00", "activity": "hike", "location": "Other", "distance": 2.0}, {"id": 1710028800371, "date": "2024-03-10T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1710201600372, "date": "2024-03-12T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1710288000373, "date": "2024-03-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1710374400374, "date": "2024-03-14T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1710460800375, "date": "2024-03-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1710547200376, "date": "2024-03-16T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1710633600377, "date": "2024-03-17T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1710720000378, "date": "2024-03-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1710720000379, "date": "2024-03-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1710806400380, "date": "2024-03-19T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1710892800381, "date": "2024-03-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1711065600382, "date": "2024-03-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1711152000383, "date": "2024-03-23T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1711238400384, "date": "2024-03-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1711324800385, "date": "2024-03-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1711411200386, "date": "2024-03-26T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1711411200387, "date": "2024-03-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1711584000388, "date": "2024-03-28T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1711929600389, "date": "2024-04-01T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1711929600390, "date": "2024-04-01T00:00:00", "activity": "hike", "location": "Other", "distance": 1.3}, {"id": 1712016000391, "date": "2024-04-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1712188800392, "date": "2024-04-04T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1712275200393, "date": "2024-04-05T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1712361600394, "date": "2024-04-06T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1712448000395, "date": "2024-04-07T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1712534400396, "date": "2024-04-08T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1712707200397, "date": "2024-04-10T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1712707200398, "date": "2024-04-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1712793600399, "date": "2024-04-11T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1712880000400, "date": "2024-04-12T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1712880000401, "date": "2024-04-12T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1713052800402, "date": "2024-04-14T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1713139200403, "date": "2024-04-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1713225600404, "date": "2024-04-16T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1713225600405, "date": "2024-04-16T00:00:00", "activity": "hike", "location": "Other", "distance": 1.0}, {"id": 1713398400406, "date": "2024-04-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1713484800407, "date": "2024-04-19T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1713657600408, "date": "2024-04-21T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1713830400409, "date": "2024-04-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1713916800410, "date": "2024-04-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1714003200411, "date": "2024-04-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1714089600412, "date": "2024-04-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1714348800413, "date": "2024-04-29T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1714435200414, "date": "2024-04-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1714608000415, "date": "2024-05-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1714608000416, "date": "2024-05-02T00:00:00", "activity": "hike", "location": "Other", "distance": 0.9}, {"id": 1714694400417, "date": "2024-05-03T00:00:00", "activity": "trail-run", "location": "Other", "distance": 1.6}, {"id": 1714867200418, "date": "2024-05-05T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.8}, {"id": 1714953600419, "date": "2024-05-06T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1715040000420, "date": "2024-05-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1715212800421, "date": "2024-05-09T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.5}, {"id": 1715299200422, "date": "2024-05-10T00:00:00", "activity": "hike", "location": "Other", "distance": 1.8}, {"id": 1715472000423, "date": "2024-05-12T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1715558400424, "date": "2024-05-13T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.9}, {"id": 1715558400425, "date": "2024-05-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.6}, {"id": 1715644800426, "date": "2024-05-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.7}, {"id": 1715817600427, "date": "2024-05-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1715904000428, "date": "2024-05-17T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1716163200429, "date": "2024-05-20T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1716163200430, "date": "2024-05-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.4}, {"id": 1716249600431, "date": "2024-05-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1716336000432, "date": "2024-05-22T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1716336000433, "date": "2024-05-22T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1716422400434, "date": "2024-05-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.1}, {"id": 1716508800435, "date": "2024-05-24T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1716681600436, "date": "2024-05-26T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1716854400437, "date": "2024-05-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1716854400438, "date": "2024-05-28T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.6}, {"id": 1716940800439, "date": "2024-05-29T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1716940800440, "date": "2024-05-29T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1717027200441, "date": "2024-05-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1717113600442, "date": "2024-05-31T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1717113600443, "date": "2024-05-31T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1717200000444, "date": "2024-06-01T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1717372800445, "date": "2024-06-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1718064000446, "date": "2024-06-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1718150400447, "date": "2024-06-12T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1718236800448, "date": "2024-06-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.6}, {"id": 1718323200449, "date": "2024-06-14T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1718496000450, "date": "2024-06-16T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1718582400451, "date": "2024-06-17T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1718755200452, "date": "2024-06-19T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 0.9}, {"id": 1718928000453, "date": "2024-06-21T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1719100800454, "date": "2024-06-23T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.0}, {"id": 1719532800455, "date": "2024-06-28T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1719705600456, "date": "2024-06-30T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.3}, {"id": 1719878400457, "date": "2024-07-02T00:00:00", "activity": "hike", "location": "Other", "distance": 4.8}, {"id": 1719878400458, "date": "2024-07-02T00:00:00", "activity": "hike", "location": "Other", "distance": 0.6}, {"id": 1720137600459, "date": "2024-07-05T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1720224000460, "date": "2024-07-06T00:00:00", "activity": "hike", "location": "Other", "distance": 2.8}, {"id": 1720310400461, "date": "2024-07-07T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.8}, {"id": 1720396800462, "date": "2024-07-08T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1720742400463, "date": "2024-07-12T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1721001600464, "date": "2024-07-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1721088000465, "date": "2024-07-16T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1721174400466, "date": "2024-07-17T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1721174400467, "date": "2024-07-17T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.0}, {"id": 1721520000468, "date": "2024-07-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1721606400469, "date": "2024-07-22T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1721692800470, "date": "2024-07-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1721779200471, "date": "2024-07-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1721952000472, "date": "2024-07-26T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1722211200473, "date": "2024-07-29T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.2}, {"id": 1722297600474, "date": "2024-07-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1722902400475, "date": "2024-08-06T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1722988800476, "date": "2024-08-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1723075200477, "date": "2024-08-08T00:00:00", "activity": "hike", "location": "Other", "distance": 1.3}, {"id": 1723766400478, "date": "2024-08-16T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1723939200479, "date": "2024-08-18T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1724025600480, "date": "2024-08-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1724198400481, "date": "2024-08-21T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1724284800482, "date": "2024-08-22T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1724457600483, "date": "2024-08-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1724544000484, "date": "2024-08-25T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1724630400485, "date": "2024-08-26T00:00:00", "activity": "ruck", "location": "Other", "distance": 0.8}, {"id": 1724889600486, "date": "2024-08-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1724976000487, "date": "2024-08-30T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.4}, {"id": 1725062400488, "date": "2024-08-31T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.6}, {"id": 1725148800489, "date": "2024-09-01T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.8}, {"id": 1725321600490, "date": "2024-09-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1725408000491, "date": "2024-09-04T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.6}, {"id": 1725494400492, "date": "2024-09-05T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.8}, {"id": 1725494400493, "date": "2024-09-05T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.4}, {"id": 1725580800494, "date": "2024-09-06T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1725840000495, "date": "2024-09-09T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1725926400496, "date": "2024-09-10T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1725926400497, "date": "2024-09-10T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1726012800498, "date": "2024-09-11T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1726099200499, "date": "2024-09-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1726444800500, "date": "2024-09-16T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1726531200501, "date": "2024-09-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1726617600502, "date": "2024-09-18T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1726704000503, "date": "2024-09-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1726704000504, "date": "2024-09-19T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1726790400505, "date": "2024-09-20T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1726963200506, "date": "2024-09-22T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.5}, {"id": 1726963200507, "date": "2024-09-22T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1727049600508, "date": "2024-09-23T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1727136000509, "date": "2024-09-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1727222400510, "date": "2024-09-25T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1727308800511, "date": "2024-09-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1727654400512, "date": "2024-09-30T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1727568000513, "date": "2024-09-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1727740800514, "date": "2024-10-01T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1727913600515, "date": "2024-10-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1728000000516, "date": "2024-10-04T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1728086400517, "date": "2024-10-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1728172800518, "date": "2024-10-06T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1728259200519, "date": "2024-10-07T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1728259200520, "date": "2024-10-07T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.4}, {"id": 1728345600521, "date": "2024-10-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1728518400522, "date": "2024-10-10T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1728604800523, "date": "2024-10-11T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1728777600524, "date": "2024-10-13T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1728864000525, "date": "2024-10-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1729382400526, "date": "2024-10-20T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1729468800527, "date": "2024-10-21T00:00:00", "activity": "hike", "location": "Other", "distance": 1.4}, {"id": 1729555200528, "date": "2024-10-22T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1729555200529, "date": "2024-10-22T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1729728000530, "date": "2024-10-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1729814400531, "date": "2024-10-25T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.6}, {"id": 1729987200532, "date": "2024-10-27T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.5}, {"id": 1730073600533, "date": "2024-10-28T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1730073600534, "date": "2024-10-28T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.1}, {"id": 1730160000535, "date": "2024-10-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1730246400536, "date": "2024-10-30T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1730332800537, "date": "2024-10-31T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1730419200538, "date": "2024-11-01T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1730592000539, "date": "2024-11-03T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1730678400540, "date": "2024-11-04T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1730678400541, "date": "2024-11-04T00:00:00", "activity": "hike", "location": "Other", "distance": 1.6}, {"id": 1730764800542, "date": "2024-11-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1730764800543, "date": "2024-11-05T00:00:00", "activity": "hike", "location": "Other", "distance": 2.2}, {"id": 1730851200544, "date": "2024-11-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1730851200545, "date": "2024-11-06T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.2}, {"id": 1730937600546, "date": "2024-11-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1731369600547, "date": "2024-11-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1731456000548, "date": "2024-11-13T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1731456000549, "date": "2024-11-13T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1731542400550, "date": "2024-11-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1731628800551, "date": "2024-11-15T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1731628800552, "date": "2024-11-15T00:00:00", "activity": "hike", "location": "Other", "distance": 1.4}, {"id": 1731715200553, "date": "2024-11-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1731801600554, "date": "2024-11-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1731888000555, "date": "2024-11-18T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.7}, {"id": 1731974400556, "date": "2024-11-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1731974400557, "date": "2024-11-19T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1732060800558, "date": "2024-11-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1732147200559, "date": "2024-11-21T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1732320000560, "date": "2024-11-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1732406400561, "date": "2024-11-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1732492800562, "date": "2024-11-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1732752000563, "date": "2024-11-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1732924800564, "date": "2024-11-30T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1733011200565, "date": "2024-12-01T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1733097600566, "date": "2024-12-02T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1733184000567, "date": "2024-12-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1733270400568, "date": "2024-12-04T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1733270400569, "date": "2024-12-04T00:00:00", "activity": "hike", "location": "Other", "distance": 1.7}, {"id": 1733356800570, "date": "2024-12-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1733529600571, "date": "2024-12-07T00:00:00", "activity": "hike", "location": "Other", "distance": 1.5}, {"id": 1733702400572, "date": "2024-12-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1733702400573, "date": "2024-12-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1733788800574, "date": "2024-12-10T00:00:00", "activity": "hike", "location": "Other", "distance": 1.5}, {"id": 1733961600575, "date": "2024-12-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.2}, {"id": 1733961600576, "date": "2024-12-12T00:00:00", "activity": "hike", "location": "Other", "distance": 1.5}, {"id": 1734048000577, "date": "2024-12-13T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1734134400578, "date": "2024-12-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1734220800579, "date": "2024-12-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1734307200580, "date": "2024-12-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1734307200581, "date": "2024-12-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1734393600582, "date": "2024-12-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1734393600583, "date": "2024-12-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1734480000584, "date": "2024-12-18T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1734566400585, "date": "2024-12-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1734566400586, "date": "2024-12-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1734739200587, "date": "2024-12-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1734825600588, "date": "2024-12-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1734912000589, "date": "2024-12-23T00:00:00", "activity": "trail-run", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1735084800590, "date": "2024-12-25T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1735171200591, "date": "2024-12-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1735257600592, "date": "2024-12-27T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.5}, {"id": 1735257600593, "date": "2024-12-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1735776000594, "date": "2025-01-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1735776000595, "date": "2025-01-02T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1735862400596, "date": "2025-01-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.3}, {"id": 1736035200597, "date": "2025-01-05T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1736121600598, "date": "2025-01-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1736121600599, "date": "2025-01-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1736208000600, "date": "2025-01-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1736380800601, "date": "2025-01-09T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1736380800602, "date": "2025-01-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1736467200603, "date": "2025-01-10T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1736467200604, "date": "2025-01-10T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1736553600605, "date": "2025-01-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1736640000606, "date": "2025-01-12T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1736726400607, "date": "2025-01-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1736726400608, "date": "2025-01-13T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1736812800609, "date": "2025-01-14T00:00:00", "activity": "hike", "location": "Other", "distance": 1.3}, {"id": 1736812800610, "date": "2025-01-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1736899200611, "date": "2025-01-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1737158400612, "date": "2025-01-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1737244800613, "date": "2025-01-19T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1737244800614, "date": "2025-01-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1737417600615, "date": "2025-01-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1737417600616, "date": "2025-01-21T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1737504000617, "date": "2025-01-22T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1737590400618, "date": "2025-01-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1737590400619, "date": "2025-01-23T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.2}, {"id": 1737676800620, "date": "2025-01-24T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1737763200621, "date": "2025-01-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1737849600622, "date": "2025-01-26T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1737936000623, "date": "2025-01-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1737936000624, "date": "2025-01-27T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1738022400625, "date": "2025-01-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1738022400626, "date": "2025-01-28T00:00:00", "activity": "hike", "location": "Other", "distance": 0.5}, {"id": 1738108800627, "date": "2025-01-29T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.7}, {"id": 1738195200628, "date": "2025-01-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1738195200629, "date": "2025-01-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.6}, {"id": 1738368000630, "date": "2025-02-01T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1738540800631, "date": "2025-02-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1738972800632, "date": "2025-02-08T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.4}, {"id": 1739145600633, "date": "2025-02-10T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.5}, {"id": 1739491200634, "date": "2025-02-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1739577600635, "date": "2025-02-15T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 0.9}, {"id": 1739923200636, "date": "2025-02-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1739923200637, "date": "2025-02-19T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1740009600638, "date": "2025-02-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1740268800639, "date": "2025-02-23T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1740355200640, "date": "2025-02-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1740528000641, "date": "2025-02-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1740614400642, "date": "2025-02-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1740700800643, "date": "2025-02-28T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1740700800644, "date": "2025-02-28T00:00:00", "activity": "hike", "location": "Other", "distance": 0.9}, {"id": 1740787200645, "date": "2025-03-01T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1740873600646, "date": "2025-03-02T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1740960000647, "date": "2025-03-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1741046400648, "date": "2025-03-04T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1741219200649, "date": "2025-03-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1741392000650, "date": "2025-03-08T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1741478400651, "date": "2025-03-09T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.7}, {"id": 1741564800652, "date": "2025-03-10T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1741737600653, "date": "2025-03-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1741824000654, "date": "2025-03-13T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 2.0}, {"id": 1741910400655, "date": "2025-03-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1741910400656, "date": "2025-03-14T00:00:00", "activity": "hike", "location": "Other", "distance": 1.9}, {"id": 1742083200657, "date": "2025-03-16T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1742256000658, "date": "2025-03-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1742342400659, "date": "2025-03-19T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1742428800660, "date": "2025-03-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1742515200661, "date": "2025-03-21T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.6}, {"id": 1742688000662, "date": "2025-03-23T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 2.0}, {"id": 1742860800663, "date": "2025-03-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1742947200664, "date": "2025-03-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1743033600665, "date": "2025-03-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1743120000666, "date": "2025-03-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1743292800667, "date": "2025-03-30T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.1}, {"id": 1743379200668, "date": "2025-03-31T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1743379200669, "date": "2025-03-31T00:00:00", "activity": "hike", "location": "Other", "distance": 0.3}, {"id": 1743465600670, "date": "2025-04-01T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1743552000671, "date": "2025-04-02T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1743638400672, "date": "2025-04-03T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1743811200673, "date": "2025-04-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1743897600674, "date": "2025-04-06T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.3}, {"id": 1743984000675, "date": "2025-04-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1744675200676, "date": "2025-04-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1744588800677, "date": "2025-04-14T00:00:00", "activity": "trail-run", "location": "Other", "distance": 1.6}, {"id": 1744502400678, "date": "2025-04-13T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1744675200679, "date": "2025-04-15T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1744761600680, "date": "2025-04-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1744761600681, "date": "2025-04-16T00:00:00", "activity": "hike", "location": "Annie Moore", "distance": 1.1}, {"id": 1744848000682, "date": "2025-04-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1744848000683, "date": "2025-04-17T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1744934400684, "date": "2025-04-18T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1745107200685, "date": "2025-04-20T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1745193600686, "date": "2025-04-21T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1745712000687, "date": "2025-04-27T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1745798400688, "date": "2025-04-28T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1745884800689, "date": "2025-04-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1745971200690, "date": "2025-04-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1745971200691, "date": "2025-04-30T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.9}, {"id": 1746144000692, "date": "2025-05-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1746489600693, "date": "2025-05-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1746489600694, "date": "2025-05-06T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1746576000695, "date": "2025-05-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1746662400696, "date": "2025-05-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1746748800697, "date": "2025-05-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1746921600698, "date": "2025-05-11T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.4}, {"id": 1747008000699, "date": "2025-05-12T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1747180800700, "date": "2025-05-14T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1747094400701, "date": "2025-05-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1747267200702, "date": "2025-05-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1747353600703, "date": "2025-05-16T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1747612800704, "date": "2025-05-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1747699200705, "date": "2025-05-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1747785600706, "date": "2025-05-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1747872000707, "date": "2025-05-22T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1747958400708, "date": "2025-05-23T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1748131200709, "date": "2025-05-25T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1748390400710, "date": "2025-05-28T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1748304000711, "date": "2025-05-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1748563200712, "date": "2025-05-30T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 0.9}, {"id": 1748476800713, "date": "2025-05-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1748736000714, "date": "2025-06-01T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1748822400715, "date": "2025-06-02T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1748908800716, "date": "2025-06-03T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.1}, {"id": 1748995200717, "date": "2025-06-04T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1749168000718, "date": "2025-06-06T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1749686400719, "date": "2025-06-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1749772800720, "date": "2025-06-13T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.4}, {"id": 1749340800721, "date": "2025-06-08T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1749081600722, "date": "2025-06-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1749859200723, "date": "2025-06-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1749945600724, "date": "2025-06-15T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.4}, {"id": 1750032000725, "date": "2025-06-16T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1750118400726, "date": "2025-06-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1750204800727, "date": "2025-06-18T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1750377600728, "date": "2025-06-20T00:00:00", "activity": "ruck", "location": "Other", "distance": 0.9}, {"id": 1751155200729, "date": "2025-06-29T00:00:00", "activity": "hike", "location": "Other", "distance": 4.1}, {"id": 1751414400730, "date": "2025-07-02T00:00:00", "activity": "trail-run", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1751587200731, "date": "2025-07-04T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1751846400732, "date": "2025-07-07T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1752192000733, "date": "2025-07-11T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1752624000734, "date": "2025-07-16T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1752796800735, "date": "2025-07-18T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1752796800736, "date": "2025-07-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1752969600737, "date": "2025-07-20T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.5}, {"id": 1752883200738, "date": "2025-07-19T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1753056000739, "date": "2025-07-21T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1753401600740, "date": "2025-07-25T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1753488000741, "date": "2025-07-26T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.5}, {"id": 1754179200742, "date": "2025-08-03T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 2.0}, {"id": 1754784000743, "date": "2025-08-10T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1754870400744, "date": "2025-08-11T00:00:00", "activity": "hike", "location": "Other", "distance": 0.5}, {"id": 1755993600745, "date": "2025-08-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1756080000746, "date": "2025-08-25T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1756252800747, "date": "2025-08-27T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1756252800748, "date": "2025-08-27T00:00:00", "activity": "hike", "location": "Other", "distance": 1.4}, {"id": 1756425600749, "date": "2025-08-29T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1756425600750, "date": "2025-08-29T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.6}, {"id": 1756598400751, "date": "2025-08-31T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1756944000752, "date": "2025-09-04T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1757030400753, "date": "2025-09-05T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1757030400754, "date": "2025-09-05T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1757289600755, "date": "2025-09-08T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1757376000756, "date": "2025-09-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1757462400757, "date": "2025-09-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.7}, {"id": 1757548800758, "date": "2025-09-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1757635200759, "date": "2025-09-12T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1757808000760, "date": "2025-09-14T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.9}, {"id": 1757894400761, "date": "2025-09-15T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1757980800762, "date": "2025-09-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1758067200763, "date": "2025-09-17T00:00:00", "activity": "mtb", "location": "Other", "distance": 3.9}, {"id": 1758153600764, "date": "2025-09-18T00:00:00", "activity": "trail-run", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1758240000765, "date": "2025-09-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1758412800766, "date": "2025-09-21T00:00:00", "activity": "mtb", "location": "Other", "distance": 3.8}, {"id": 1758585600767, "date": "2025-09-23T00:00:00", "activity": "hike", "location": "Other", "distance": 1.4}, {"id": 1758672000768, "date": "2025-09-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1758758400769, "date": "2025-09-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1758844800770, "date": "2025-09-26T00:00:00", "activity": "hike", "location": "Other", "distance": 0.8}, {"id": 1759017600771, "date": "2025-09-28T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.4}, {"id": 1759104000772, "date": "2025-09-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1759276800773, "date": "2025-10-01T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1759363200774, "date": "2025-10-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1759536000775, "date": "2025-10-04T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1759622400776, "date": "2025-10-05T00:00:00", "activity": "mtb", "location": "Burgess-Brown Land", "distance": 1.7}, {"id": 1759795200777, "date": "2025-10-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1759881600778, "date": "2025-10-08T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1759968000779, "date": "2025-10-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1760227200780, "date": "2025-10-12T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.6}, {"id": 1760313600781, "date": "2025-10-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1760400000782, "date": "2025-10-14T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1760400000783, "date": "2025-10-14T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1760486400784, "date": "2025-10-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1760659200785, "date": "2025-10-17T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1760745600786, "date": "2025-10-18T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1760832000787, "date": "2025-10-19T00:00:00", "activity": "ruck", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1761177600788, "date": "2025-10-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1761264000789, "date": "2025-10-24T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1761523200790, "date": "2025-10-27T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1761609600791, "date": "2025-10-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1761782400792, "date": "2025-10-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1761868800793, "date": "2025-10-31T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1762128000794, "date": "2025-11-03T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1762128000795, "date": "2025-11-03T00:00:00", "activity": "hike", "location": "Other", "distance": 1.1}, {"id": 1762041600796, "date": "2025-11-02T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.2}, {"id": 1762214400797, "date": "2025-11-04T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1762300800798, "date": "2025-11-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1762560000799, "date": "2025-11-08T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1762732800800, "date": "2025-11-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1762905600801, "date": "2025-11-12T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1763078400802, "date": "2025-11-14T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1763078400803, "date": "2025-11-14T00:00:00", "activity": "hike", "location": "Other", "distance": 1.6}, {"id": 1763164800804, "date": "2025-11-15T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1763337600805, "date": "2025-11-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1763424000806, "date": "2025-11-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1763510400807, "date": "2025-11-19T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1763596800808, "date": "2025-11-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1763769600809, "date": "2025-11-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1763942400810, "date": "2025-11-24T00:00:00", "activity": "ruck", "location": "Other", "distance": 3.0}, {"id": 1764028800811, "date": "2025-11-25T00:00:00", "activity": "hike", "location": "Other", "distance": 1.6}, {"id": 1764115200812, "date": "2025-11-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1764288000813, "date": "2025-11-28T00:00:00", "activity": "ruck", "location": "Annie Moore", "distance": 1.2}, {"id": 1764460800814, "date": "2025-11-30T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.9}, {"id": 1764979200815, "date": "2025-12-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1765065600816, "date": "2025-12-07T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1765152000817, "date": "2025-12-08T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.0}, {"id": 1765238400818, "date": "2025-12-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1765324800819, "date": "2025-12-10T00:00:00", "activity": "hike", "location": "Other", "distance": 1.3}, {"id": 1765411200820, "date": "2025-12-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1765497600821, "date": "2025-12-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1765497600822, "date": "2025-12-12T00:00:00", "activity": "hike", "location": "Other", "distance": 1.6}, {"id": 1765670400823, "date": "2025-12-14T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1765756800824, "date": "2025-12-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1765756800825, "date": "2025-12-15T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.0}, {"id": 1765929600826, "date": "2025-12-17T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1766016000827, "date": "2025-12-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1766016000828, "date": "2025-12-18T00:00:00", "activity": "hike", "location": "Other", "distance": 0.5}, {"id": 1766102400829, "date": "2025-12-19T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1766275200830, "date": "2025-12-21T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1766448000831, "date": "2025-12-23T00:00:00", "activity": "hike", "location": "Other", "distance": 1.3}, {"id": 1766620800832, "date": "2025-12-25T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1766793600833, "date": "2025-12-27T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1767139200834, "date": "2025-12-31T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.3}, {"id": 1767312000835, "date": "2026-01-02T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.2}, {"id": 1767571200836, "date": "2026-01-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1767484800837, "date": "2026-01-04T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.3}, {"id": 1767571200838, "date": "2026-01-05T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.1}, {"id": 1767744000839, "date": "2026-01-07T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1767830400840, "date": "2026-01-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1767916800841, "date": "2026-01-09T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1768089600842, "date": "2026-01-11T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.0}, {"id": 1768176000843, "date": "2026-01-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1768262400844, "date": "2026-01-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1768262400845, "date": "2026-01-13T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1768348800846, "date": "2026-01-14T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1768435200847, "date": "2026-01-15T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1768521600848, "date": "2026-01-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1768608000849, "date": "2026-01-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1768867200850, "date": "2026-01-20T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.2}, {"id": 1768953600851, "date": "2026-01-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.2}, {"id": 1769040000852, "date": "2026-01-22T00:00:00", "activity": "hike", "location": "Other", "distance": 0.5}, {"id": 1769126400853, "date": "2026-01-23T00:00:00", "activity": "hike", "location": "Other", "distance": 1.6}, {"id": 1769212800854, "date": "2026-01-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1769299200855, "date": "2026-01-25T00:00:00", "activity": "hike", "location": "Other", "distance": 1.3}, {"id": 1769558400856, "date": "2026-01-28T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.4}, {"id": 1769644800857, "date": "2026-01-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.5}, {"id": 1769731200858, "date": "2026-01-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1770076800859, "date": "2026-02-03T00:00:00", "activity": "hike", "location": "Other", "distance": 0.9}, {"id": 1769990400860, "date": "2026-02-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1769817600861, "date": "2026-01-31T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1770163200862, "date": "2026-02-04T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1770249600863, "date": "2026-02-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1770508800864, "date": "2026-02-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.1}, {"id": 1770595200865, "date": "2026-02-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1770681600866, "date": "2026-02-10T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1770768000867, "date": "2026-02-11T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1770854400868, "date": "2026-02-12T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1770940800869, "date": "2026-02-13T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1771113600870, "date": "2026-02-15T00:00:00", "activity": "ruck", "location": "Burgess-Brown Land", "distance": 1.2}, {"id": 1771200000871, "date": "2026-02-16T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1771286400872, "date": "2026-02-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1771891200873, "date": "2026-02-24T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1771977600874, "date": "2026-02-25T00:00:00", "activity": "hike", "location": "Other", "distance": 1.0}, {"id": 1772064000875, "date": "2026-02-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1772150400876, "date": "2026-02-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1772409600877, "date": "2026-03-02T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1772582400878, "date": "2026-03-04T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1772668800879, "date": "2026-03-05T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1772755200880, "date": "2026-03-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.7}, {"id": 1772841600881, "date": "2026-03-07T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1773014400882, "date": "2026-03-09T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1773014400883, "date": "2026-03-09T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 0.2}, {"id": 1773100800884, "date": "2026-03-10T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.0}, {"id": 1773187200885, "date": "2026-03-11T00:00:00", "activity": "hike", "location": "Other", "distance": 0.6}, {"id": 1773273600886, "date": "2026-03-12T00:00:00", "activity": "hike", "location": "Other", "distance": 1.0}, {"id": 1773446400887, "date": "2026-03-14T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.1}, {"id": 1773360000888, "date": "2026-03-13T00:00:00", "activity": "hike", "location": "Other", "distance": 1.0}, {"id": 1773532800889, "date": "2026-03-15T00:00:00", "activity": "mtb", "location": "Horse Meadows Knoll", "distance": 1.6}, {"id": 1773705600890, "date": "2026-03-17T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1773792000891, "date": "2026-03-18T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1773878400892, "date": "2026-03-19T00:00:00", "activity": "hike", "location": "Other", "distance": 1.5}, {"id": 1773964800893, "date": "2026-03-20T00:00:00", "activity": "hike", "location": "Horse Meadows Knoll", "distance": 1.7}, {"id": 1774051200894, "date": "2026-03-21T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 0.9}, {"id": 1774137600895, "date": "2026-03-22T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1774224000896, "date": "2026-03-23T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1774310400897, "date": "2026-03-24T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1774396800898, "date": "2026-03-25T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1774483200899, "date": "2026-03-26T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1774569600900, "date": "2026-03-27T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 0.9}, {"id": 1774742400901, "date": "2026-03-29T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1774828800902, "date": "2026-03-30T00:00:00", "activity": "hike", "location": "Other", "distance": 1.4}, {"id": 1774915200903, "date": "2026-03-31T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1774915200904, "date": "2026-03-31T00:00:00", "activity": "hike", "location": "Other", "distance": 0.7}, {"id": 1775001600905, "date": "2026-04-01T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.5}, {"id": 1775001600906, "date": "2026-04-01T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.3}, {"id": 1775088000907, "date": "2026-04-02T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1775260800908, "date": "2026-04-04T00:00:00", "activity": "mtb", "location": "Other", "distance": 3.4}, {"id": 1775174400909, "date": "2026-04-03T00:00:00", "activity": "hike", "location": "Other", "distance": 2.0}, {"id": 1775433600910, "date": "2026-04-06T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1775433600911, "date": "2026-04-06T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 2.1}, {"id": 1775520000912, "date": "2026-04-07T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1775606400913, "date": "2026-04-08T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1775606400914, "date": "2026-04-08T00:00:00", "activity": "hike", "location": "Other", "distance": 1.2}, {"id": 1775692800915, "date": "2026-04-09T00:00:00", "activity": "hike", "location": "Burgess-Brown Land", "distance": 1.0}, {"id": 1775865600916, "date": "2026-04-11T00:00:00", "activity": "mtb", "location": "Other", "distance": 5.5}, {"id": 1776470400917, "date": "2026-04-18T00:00:00", "activity": "trail-run", "location": "Burgess-Brown Land", "distance": 1.6}, {"id": 1776643200918, "date": "2026-04-20T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1776643200919, "date": "2026-04-20T00:00:00", "activity": "mtb", "location": "Burgess-Brown Land", "distance": 1.8}, {"id": 1776729600920, "date": "2026-04-21T00:00:00", "activity": "ruck", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1776988800921, "date": "2026-04-24T00:00:00", "activity": "mtb", "location": "Burgess-Brown Land", "distance": 2.1}, {"id": 1777161600922, "date": "2026-04-26T00:00:00", "activity": "ruck", "location": "Other", "distance": 1.5}, {"id": 1777248000923, "date": "2026-04-27T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.6}, {"id": 1777248000924, "date": "2026-04-27T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 3.8}, {"id": 1777334400925, "date": "2026-04-28T00:00:00", "activity": "trail-run", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1777420800926, "date": "2026-04-29T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.4}, {"id": 1777507200927, "date": "2026-04-30T00:00:00", "activity": "hike", "location": "Rattlesnake Hill", "distance": 1.3}, {"id": 1777593600928, "date": "2026-05-01T00:00:00", "activity": "hike", "location": "Other", "distance": 0.9}, {"id": 1777593600929, "date": "2026-05-01T00:00:00", "activity": "mtb", "location": "Rattlesnake Hill", "distance": 1.8}, {"id": 1777852800930, "date": "2026-05-04T00:00:00", "activity": "hike", "location": "Other", "distance": 1.0}, {"id": 1777939200931, "date": "2026-05-05T00:00:00", "activity": "trail-run", "location": "Other", "distance": 1.2}, {"id": 1778025600932, "date": "2026-05-06T00:00:00", "activity": "hike", "location": "Other", "distance": 1.1}, {"id": 1778112000933, "date": "2026-05-07T00:00:00", "activity": "mtb", "location": "Burgess-Brown Land", "distance": 1.9}];
 
 // ── Google Sheets URL ──────────────────────────────────────
-// Replace with your own Apps Script URL when deploying
 const GS_URL = 'https://script.google.com/macros/s/AKfycbyi9yx8CO1PbVJhT161BkjmxOGPFrGOE6hoKo9mnisoEihJ7BCYVF8gVBJThGIogkm-/exec';
 
-// ── Config ─────────────────────────────────────────────────
 const DEFAULT_LOCATIONS = ['Rattlesnake Hill','Burgess Brown','Annie Moore','Horse Meadows Knoll','Delaney'];
-const ACT_ICONS = {'hike':'🥾','trail-run':'🏃','mtb':'🚵','ruck':'🎒'};
+const ACT_ICONS  = {'hike':'🥾','trail-run':'🏃','mtb':'🚵','ruck':'🎒'};
 const ACT_LABELS = {'hike':'Hike','trail-run':'Trail Run','mtb':'MTB','ruck':'Ruck'};
+const PAGE_SIZE  = 50;
 
 // ── State ──────────────────────────────────────────────────
-let selectedAct = null;
-let selectedLoc = null;
+let selectedAct  = null;
+let selectedLoc  = null;
 let currentFilter = 'all';
-let locations = JSON.parse(localStorage.getItem('td_locations') || 'null') || [...DEFAULT_LOCATIONS];
+let searchQuery  = '';
+let currentPage  = 1;
+let lastFullData = []; // full unfiltered dataset
 
 // ── Google Sheets ──────────────────────────────────────────
 async function gsRead(){
-  const res = await fetch(GS_URL+'?action=read', {method:'GET', redirect:'follow'});
+  const res = await fetch(GS_URL+'?action=read',{method:'GET',redirect:'follow'});
   return res.json();
 }
 async function gsWrite(payload){
-  await fetch(GS_URL, {
-    method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify(payload)
-  });
+  await fetch(GS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
 }
-async function gsAdd(entry){ await gsWrite({action:'add', entry}) }
-async function gsDelete(id){ await gsWrite({action:'delete', id}) }
+async function gsAdd(entry){ await gsWrite({action:'add',entry}) }
+async function gsDelete(id){ await gsWrite({action:'delete',id}) }
 
 // ── Local cache ────────────────────────────────────────────
 function lLoad(){ try{ return JSON.parse(localStorage.getItem('td_activities')||'[]') }catch{ return [] } }
-function lSave(a){ localStorage.setItem('td_activities', JSON.stringify(a)) }
-function saveLocations(){ localStorage.setItem('td_locations', JSON.stringify(locations)) }
+function lSave(a){ localStorage.setItem('td_activities',JSON.stringify(a)) }
 
-// ── Date ───────────────────────────────────────────────────
-document.getElementById('ddate').textContent = '📅 ' +
-  new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-// ── Activity selection ─────────────────────────────────────
-function selectAct(act, btn){
-  selectedAct = act;
-  document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
+// ── Date helper ────────────────────────────────────────────
+function todayISO(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 
-// ── Location list ──────────────────────────────────────────
+// ── Streak & last-active ───────────────────────────────────
+function updateStreak(arr){
+  if(!arr.length){
+    document.getElementById('streak-val').textContent = '0';
+    document.getElementById('streak-lbl').textContent = 'day streak';
+    return;
+  }
+  // Get sorted unique activity dates (YYYY-MM-DD)
+  const days = [...new Set(arr.map(a => a.date.slice(0,10)))].sort().reverse();
+  const today = todayISO();
+  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+
+  // Check last activity
+  const lastDay = days[0];
+  const daysSince = Math.floor((new Date(today) - new Date(lastDay)) / 86400000);
+
+  // Count streak
+  let streak = 0;
+  let check = lastDay <= today ? lastDay : today;
+  for(let i = 0; i < days.length; i++){
+    if(days[i] === check){
+      streak++;
+      const prev = new Date(new Date(check).getTime() - 86400000);
+      check = prev.toISOString().slice(0,10);
+    } else { break; }
+  }
+
+  const badge = document.getElementById('streak-badge');
+  if(daysSince === 0){
+    document.getElementById('streak-val').textContent = streak + (streak===1?' day':' days');
+    document.getElementById('streak-lbl').textContent = '🔥 active streak';
+    badge.style.borderColor = 'var(--orange)';
+  } else if(daysSince === 1){
+    document.getElementById('streak-val').textContent = 'yesterday';
+    document.getElementById('streak-lbl').textContent = 'last activity';
+    badge.style.borderColor = 'var(--border)';
+  } else {
+    document.getElementById('streak-val').textContent = daysSince+'d ago';
+    document.getElementById('streak-lbl').textContent = 'last activity';
+    badge.style.borderColor = 'var(--border)';
+  }
+}
+
+// ── Stats ──────────────────────────────────────────────────
+function updateStats(arr){
+  if(!arr.length){
+    ['stat-total','stat-miles','stat-longest','stat-fav'].forEach(id=>{
+      document.getElementById(id).textContent = id==='stat-fav'?'—':'0';
+    });
+    return;
+  }
+  const miles = arr.reduce((s,a)=>s+(+a.distance||0),0);
+  const longest = Math.max(...arr.map(a=>+a.distance||0));
+  const locCounts = {};
+  arr.forEach(a=>{ locCounts[a.location]=(locCounts[a.location]||0)+1; });
+  const fav = Object.entries(locCounts).sort((a,b)=>b[1]-a[1])[0][0];
+
+  document.getElementById('stat-total').textContent  = arr.length;
+  document.getElementById('stat-miles').textContent  = miles.toFixed(1);
+  document.getElementById('stat-longest').textContent = longest.toFixed(1)+'mi';
+  document.getElementById('stat-fav').textContent    = fav; // full name now
+}
+
+// ── Filter counts ──────────────────────────────────────────
+function updateFilterCounts(arr){
+  const counts = {all: arr.length, hike:0, 'trail-run':0, mtb:0, ruck:0};
+  arr.forEach(a=>{ if(counts[a.activity]!==undefined) counts[a.activity]++; });
+  const labels = {all:'All', hike:'🥾 Hike', 'trail-run':'🏃 Trail Run', mtb:'🚵 MTB', ruck:'🎒 Ruck'};
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    const key = btn.getAttribute('data-filter');
+    if(key && counts[key] !== undefined) btn.textContent = labels[key] + ' (' + counts[key] + ')';
+  });
+}
+
+// ── Locations ──────────────────────────────────────────────
 function getTop5Locations(){
   const history = lLoad();
-  if(history.length === 0) return [...DEFAULT_LOCATIONS].sort((a,b) => a.localeCompare(b));
-  // Count frequency of each location across all activities
+  if(!history.length) return [...DEFAULT_LOCATIONS].sort((a,b)=>a.localeCompare(b));
   const counts = {};
-  history.forEach(a => { counts[a.location] = (counts[a.location]||0)+1; });
+  history.forEach(a=>{ counts[a.location]=(counts[a.location]||0)+1; });
   return Object.entries(counts)
-    .sort((a,b) => b[1]-a[1])   // sort by frequency descending
-    .slice(0,5)
-    .map(([loc]) => loc)
-    .sort((a,b) => a.localeCompare(b));
+    .sort((a,b)=>b[1]-a[1]).slice(0,5).map(([l])=>l)
+    .sort((a,b)=>a.localeCompare(b));
 }
 
 function renderLocations(){
   const list = document.getElementById('loc-list');
-  const top5 = getTop5Locations();
-  list.innerHTML = top5.map(loc =>
+  list.innerHTML = getTop5Locations().map(loc =>
     `<button class="loc-btn${selectedLoc===loc?' on':''}" onclick="selectLoc('${esc(loc)}',this)">${esc(loc)}</button>`
   ).join('');
 }
 
-function selectLoc(loc, btn){
+function selectLoc(loc,btn){
   selectedLoc = loc;
-  document.querySelectorAll('.loc-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
 }
 
@@ -334,12 +394,19 @@ function addLocation(){
   const inp = document.getElementById('new-loc-input');
   const val = inp.value.trim();
   if(!val) return;
-  if(locations.includes(val)){ showToast('Location already exists'); return; }
-  locations.push(val);
-  saveLocations();
   inp.value = '';
   selectedLoc = val;
   renderLocations();
+  // Highlight if it appears in top 5, otherwise just set selectedLoc
+  const btn = [...document.querySelectorAll('.loc-btn')].find(b=>b.textContent===val);
+  if(btn){ document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+  else showToast('Location set: '+val);
+}
+
+function selectAct(act,btn){
+  selectedAct = act;
+  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
 }
 
 // ── Save activity ──────────────────────────────────────────
@@ -347,11 +414,13 @@ async function saveActivity(){
   if(!selectedAct){ showToast('Pick an activity type','err'); return; }
   if(!selectedLoc){ showToast('Pick a location','err'); return; }
   const dist = parseFloat(document.getElementById('distance').value);
-  if(!dist || dist <= 0){ showToast('Enter a distance','err'); return; }
+  if(!dist||dist<=0){ showToast('Enter a distance','err'); return; }
+  const dateVal = document.getElementById('activity-date').value;
+  if(!dateVal){ showToast('Pick a date','err'); return; }
 
   const entry = {
     id: Date.now(),
-    date: new Date().toISOString(),
+    date: new Date(dateVal+'T12:00:00').toISOString(),
     activity: selectedAct,
     location: selectedLoc,
     distance: dist
@@ -360,97 +429,142 @@ async function saveActivity(){
   const btn = document.getElementById('savebtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spin"></span> Saving…';
-
   try{
     const cache = lLoad(); cache.unshift(entry); lSave(cache);
     await gsAdd(entry);
     resetForm();
-    updateStats(lLoad());
-    showToast('🐾 Logged! ' + dist.toFixed(1) + ' mi at ' + selectedLoc);
-    setTimeout(() => document.querySelectorAll('.tab')[1].click(), 700);
+    updateStats(lLoad()); updateStreak(lLoad());
+    showToast('🐾 Logged! '+dist.toFixed(1)+' mi at '+selectedLoc);
+    setTimeout(()=>document.querySelectorAll('.tab')[1].click(),700);
   } catch(err){
     resetForm();
-    showToast('Saved locally (Sheets unreachable)', 'err');
-    setTimeout(() => document.querySelectorAll('.tab')[1].click(), 700);
+    showToast('Saved locally (Sheets unreachable)','err');
+    setTimeout(()=>document.querySelectorAll('.tab')[1].click(),700);
   } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Log Activity 🐾';
+    btn.disabled=false; btn.innerHTML='Log Activity 🐾';
   }
 }
 
 function resetForm(){
-  selectedAct = null; selectedLoc = null;
-  document.querySelectorAll('.act-btn').forEach(b => b.classList.remove('on'));
-  document.querySelectorAll('.loc-btn').forEach(b => b.classList.remove('on'));
-  document.getElementById('distance').value = '';
+  selectedAct=null; selectedLoc=null;
+  document.querySelectorAll('.act-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.loc-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('distance').value='';
+  document.getElementById('activity-date').value=todayISO();
 }
 
 // ── Tabs ───────────────────────────────────────────────────
-function switchTab(t, btn){
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+function switchTab(t,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-'+t).classList.add('active');
-  if(t === 'log-view') renderLog();
+  if(t==='log-view') renderLog();
+}
+
+// ── Search ─────────────────────────────────────────────────
+function onSearch(){
+  searchQuery = document.getElementById('search-input').value.toLowerCase();
+  document.getElementById('search-clear').style.display = searchQuery ? 'block' : 'none';
+  currentPage = 1;
+  renderLogFromData(lastFullData);
+}
+function clearSearch(){
+  document.getElementById('search-input').value='';
+  document.getElementById('search-clear').style.display='none';
+  searchQuery=''; currentPage=1;
+  renderLogFromData(lastFullData);
 }
 
 // ── Filter ─────────────────────────────────────────────────
-function setFilter(f, btn){
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+function setFilter(f,btn){
+  currentFilter=f; currentPage=1;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  renderLog();
+  renderLogFromData(lastFullData);
+}
+
+// ── Pagination ─────────────────────────────────────────────
+function changePage(dir){
+  currentPage += dir;
+  renderLogFromData(lastFullData);
+  window.scrollTo(0,0);
 }
 
 // ── Render log ─────────────────────────────────────────────
 async function renderLog(){
   const el = document.getElementById('activity-log');
-
-  // Show cached data immediately so screen isn't blank
   const cached = lLoad();
-  if(cached.length) renderLogFromData(cached);
-  else el.innerHTML = '<div class="empty"><div class="ei">⏳</div><p>Loading from Sheets…</p></div>';
+  if(cached.length){ lastFullData=cached; renderLogFromData(cached); }
+  else el.innerHTML='<div class="empty"><div class="ei">⏳</div><p>Loading…</p></div>';
 
-  // Always fetch fresh from Sheets — it's the source of truth
   try{
     const fresh = await gsRead();
-    if(!Array.isArray(fresh)) throw new Error('bad response');
-    const normalised = fresh.map(a => ({...a, distance: +a.distance}));
-    lSave(normalised); // update local cache to match Sheets
-    renderLogFromData(normalised);
-  } catch(e){
-    // Sheets unreachable — stick with cached data
-    if(!cached.length){
-      el.innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Could not load data.<br>Check your connection.</p></div>';
-    }
-    showToast('⚠ Using cached data — Sheets unreachable');
+    if(!Array.isArray(fresh)) throw new Error();
+    const norm = fresh.map(a=>({...a,distance:+a.distance}));
+    lSave(norm); lastFullData=norm;
+    renderLogFromData(norm);
+  } catch{
+    if(!cached.length) el.innerHTML='<div class="empty"><div class="ei">⚠️</div><p>Could not load data.</p></div>';
   }
 }
 
 function renderLogFromData(arr){
+  lastFullData = arr;
   const el = document.getElementById('activity-log');
-  const filtered = currentFilter === 'all' ? arr : arr.filter(a => a.activity === currentFilter);
-  // Most recent first
-  filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
 
-  // Stats reflect the currently filtered set
+  // Apply filter
+  let filtered = currentFilter==='all' ? arr : arr.filter(a=>a.activity===currentFilter);
+
+  // Apply search
+  if(searchQuery){
+    filtered = filtered.filter(a=>
+      a.location.toLowerCase().includes(searchQuery) ||
+      a.activity.toLowerCase().includes(searchQuery) ||
+      (ACT_LABELS[a.activity]||'').toLowerCase().includes(searchQuery) ||
+      a.date.slice(0,10).includes(searchQuery)
+    );
+  }
+
+  // Sort most recent first
+  filtered.sort((a,b)=>new Date(b.date)-new Date(a.date));
+
+  // Update stats & counts for filtered set
   updateStats(filtered);
+  updateFilterCounts(arr); // counts always based on full unfiltered data
 
-  document.getElementById('log-count').textContent = filtered.length + ' activit' + (filtered.length===1?'y':'ies');
+  // Pagination
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total/PAGE_SIZE));
+  currentPage = Math.min(currentPage, totalPages);
+  const start = (currentPage-1)*PAGE_SIZE;
+  const page = filtered.slice(start, start+PAGE_SIZE);
 
-  if(!filtered.length){
-    el.innerHTML = '<div class="empty"><div class="ei">🐾</div><p>No activities yet.<br>Go get outside!</p></div>';
+  document.getElementById('log-count').textContent =
+    total + ' activit' + (total===1?'y':'ies') + (searchQuery ? ' matching "'+searchQuery+'"' : '');
+
+  // Pagination controls
+  const pgEl = document.getElementById('pagination');
+  if(totalPages > 1){
+    pgEl.style.display='flex';
+    document.getElementById('pg-prev').disabled = currentPage<=1;
+    document.getElementById('pg-next').disabled = currentPage>=totalPages;
+    document.getElementById('pg-info').textContent = 'Page '+currentPage+' of '+totalPages;
+  } else {
+    pgEl.style.display='none';
+  }
+
+  if(!page.length){
+    el.innerHTML='<div class="empty"><div class="ei">🐾</div><p>'+(searchQuery?'No results found.':'No activities yet.<br>Go get outside!')+'</p></div>';
     return;
   }
 
-  el.innerHTML = filtered.map(a => {
+  el.innerHTML = page.map(a=>{
     const ds = new Date(a.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
-    const icon = ACT_ICONS[a.activity] || '🐾';
-    const label = ACT_LABELS[a.activity] || a.activity;
     return `<div class="act-card ${a.activity}">
-      <div class="ac-icon">${icon}</div>
+      <div class="ac-icon">${ACT_ICONS[a.activity]||'🐾'}</div>
       <div class="ac-main">
-        <div class="ac-type">${label}</div>
+        <div class="ac-type">${ACT_LABELS[a.activity]||a.activity}</div>
         <div class="ac-loc">📍 ${esc(String(a.location))}</div>
         <div class="ac-date">${ds}</div>
       </div>
@@ -463,89 +577,56 @@ function renderLogFromData(arr){
   }).join('');
 }
 
-// ── Stats ──────────────────────────────────────────────────
-function updateStats(arr){
-  if(!arr.length){
-    document.getElementById('stat-total').textContent = '0';
-    document.getElementById('stat-miles').textContent = '0';
-    document.getElementById('stat-longest').textContent = '0';
-    document.getElementById('stat-fav').textContent = '—';
-    return;
-  }
-  const total = arr.length;
-  const miles = arr.reduce((s,a) => s + (+a.distance||0), 0);
-  const longest = Math.max(...arr.map(a => +a.distance||0));
-  // Favourite location
-  const locCounts = {};
-  arr.forEach(a => { locCounts[a.location] = (locCounts[a.location]||0)+1; });
-  const fav = Object.entries(locCounts).sort((a,b)=>b[1]-a[1])[0][0];
-  const favShort = fav.split(' ')[0]; // first word only for space
-
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-miles').textContent = miles.toFixed(1);
-  document.getElementById('stat-longest').textContent = longest.toFixed(1)+'mi';
-  document.getElementById('stat-fav').textContent = favShort;
-}
-
 // ── Delete ─────────────────────────────────────────────────
 async function deleteActivity(id){
   if(!confirm('Remove this activity?')) return;
-  lSave(lLoad().filter(a => a.id !== id));
+  const updated = lLoad().filter(a=>a.id!==id);
+  lSave(updated); lastFullData=updated;
   await gsDelete(id);
   showToast('Activity removed');
-  renderLog();
+  renderLogFromData(updated);
+  updateStreak(updated);
 }
 
 // ── Helpers ────────────────────────────────────────────────
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
-function showToast(msg, type=''){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast' + (type==='err' ? ' err' : '');
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), 3200);
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(type==='err'?' err':''); t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),3500);
 }
 
 // ── Init ───────────────────────────────────────────────────
+document.getElementById('activity-date').value = todayISO();
 renderLocations();
 
-// ── Historical data import (runs once on first load) ──────
-async function importHistorical() {
-  if (localStorage.getItem('td_imported')) return;
-  showToast('📥 Importing ' + HISTORICAL_DATA.length + ' historical activities…');
-  // Save to local cache immediately
+// Historical import (once only)
+async function importHistorical(){
+  if(localStorage.getItem('td_imported')) return;
+  showToast('📥 Importing '+HISTORICAL_DATA.length+' historical activities…');
   lSave([...HISTORICAL_DATA]);
-  updateStats(HISTORICAL_DATA);
-  // Set flag NOW so a closed tab never re-imports
-  localStorage.setItem('td_imported', '1');
-  // Push to Google Sheets in batches (background, non-blocking)
-  const BATCH = 50;
-  for (let i = 0; i < HISTORICAL_DATA.length; i += BATCH) {
-    const batch = HISTORICAL_DATA.slice(i, i + BATCH);
-    await Promise.all(batch.map(e => gsAdd(e)));
+  localStorage.setItem('td_imported','1');
+  const BATCH=50;
+  for(let i=0;i<HISTORICAL_DATA.length;i+=BATCH){
+    const batch=HISTORICAL_DATA.slice(i,i+BATCH);
+    await Promise.all(batch.map(e=>gsAdd(e)));
   }
-  showToast('✅ ' + HISTORICAL_DATA.length + ' historical activities synced to Sheets!');
+  showToast('✅ '+HISTORICAL_DATA.length+' activities synced!');
 }
 
-// Load stats on startup — show cache immediately, then sync from Sheets
 (async function init(){
   const cached = lLoad();
-  if(cached.length) updateStats(cached);
-  else updateStats(HISTORICAL_DATA);
-
-  // Run historical import if needed (sets flag before Sheets writes)
+  const seed = cached.length ? cached : HISTORICAL_DATA;
+  updateStats(seed); updateStreak(seed); lastFullData=seed;
   await importHistorical();
-
-  // Always refresh stats from Sheets to keep all devices in sync
   try{
     const fresh = await gsRead();
-    if(Array.isArray(fresh) && fresh.length > 0){
-      const normalised = fresh.map(a => ({...a, distance: +a.distance}));
-      lSave(normalised);
-      updateStats(normalised);
+    if(Array.isArray(fresh)&&fresh.length>0){
+      const norm = fresh.map(a=>({...a,distance:+a.distance}));
+      lSave(norm); lastFullData=norm;
+      updateStats(norm); updateStreak(norm);
     }
-  } catch{ /* keep cached stats */ }
+  } catch{}
 })();
 </script>
 </body>
