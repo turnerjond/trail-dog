@@ -62,6 +62,9 @@
   .loc-btn.on{border-color:var(--orange);background:var(--orange-deep);color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
   .loc-btn.on::before{opacity:1}
   .loc-hint{font-size:.62rem;color:var(--ink3);margin:-.25rem 0 .55rem;line-height:1.5}
+  .loc-dropdown{width:100%;padding:.7rem 1rem;font-family:'DM Mono',monospace;font-size:.8rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:7px;color:var(--ink2);outline:none;cursor:pointer;transition:border-color .15s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a7068' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;padding-right:2.2rem;margin-bottom:.4rem}
+  .loc-dropdown:focus{border-color:var(--orange-dim)}
+  .loc-dropdown option{background:var(--bg2);color:var(--ink)}
   .add-loc-row{display:flex;gap:.5rem;margin-top:.4rem}
   .add-loc-row input{flex:1;padding:.65rem .9rem;font-family:'DM Mono',monospace;font-size:.8rem;background:var(--bg3);border:1.5px solid var(--border);border-radius:7px;color:var(--ink);outline:none;min-width:0}
   .add-loc-row input:focus{border-color:var(--orange-dim)}
@@ -242,6 +245,9 @@
       <label id="location-label">Location</label>
       <div class="loc-hint">Showing your 5 most recently used locations.</div>
       <div class="loc-list" id="loc-list"></div>
+      <select class="loc-dropdown" id="loc-dropdown" aria-label="Select from all locations" onchange="selectLocFromDropdown(this.value)">
+        <option value="">— or pick from all past locations —</option>
+      </select>
       <div class="add-loc-row">
         <input type="text" id="new-loc-input" aria-label="Add new location" placeholder="Add new location…" onkeydown="if(event.key==='Enter') addLocation()">
         <button type="button" onclick="addLocation()">+ Add</button>
@@ -497,11 +503,49 @@ function getRecentLocations(){
     .map(item=>item.loc);
 }
 
+function getAllLocations(){
+  const history = lLoad();
+  const seen = new Map();
+  history.forEach(a => {
+    const loc = String(a.location || '').trim();
+    if(!loc) return;
+    const key = normalizedLocationKey(loc);
+    const time = new Date(a.date).getTime() || 0;
+    const current = seen.get(key);
+    if(!current || time > current.time) seen.set(key, {loc, time});
+  });
+  const fromHistory = [...seen.values()].sort((a,b)=>b.time-a.time).map(x=>x.loc);
+  // Also include defaults not already present
+  DEFAULT_LOCATIONS.forEach(d => {
+    const key = normalizedLocationKey(d);
+    if(!seen.has(key)) fromHistory.push(d);
+  });
+  return fromHistory;
+}
+
 function renderLocations(){
   const list = document.getElementById('loc-list');
   list.innerHTML = getRecentLocations().map(loc =>
     `<button type="button" class="loc-btn${selectedLoc===loc?' on':''}" aria-pressed="${selectedLoc===loc?'true':'false'}" data-location="${esc(loc)}" onclick="selectLoc(this.dataset.location,this)">${esc(loc)}</button>`
   ).join('');
+  // Populate the dropdown with ALL past locations
+  const dd = document.getElementById('loc-dropdown');
+  const all = getAllLocations();
+  dd.innerHTML = '<option value="">— or pick from all past locations —</option>' +
+    all.map(loc => `<option value="${esc(loc)}"${selectedLoc===loc?' selected':''}>${esc(loc)}</option>`).join('');
+}
+
+function selectLocFromDropdown(val){
+  if(!val) return;
+  const dd = document.getElementById('loc-dropdown');
+  selectedLoc = val;
+  // Clear quick-pick button highlights
+  document.querySelectorAll('.loc-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
+  // Highlight quick-pick button if this loc is in the recent 5
+  const btn = [...document.querySelectorAll('.loc-btn')].find(b=>b.dataset.location===val);
+  if(btn){ btn.classList.add('on'); btn.setAttribute('aria-pressed','true'); }
+  // Reset dropdown to placeholder so it reads as a "picker" not a persistent state
+  dd.value = val; // keep it selected so user sees what they picked
 }
 
 function selectLoc(loc,btn){
@@ -509,6 +553,9 @@ function selectLoc(loc,btn){
   document.querySelectorAll('.loc-btn').forEach(b=>{ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
   btn.classList.add('on');
   btn.setAttribute('aria-pressed','true');
+  // Keep dropdown in sync
+  const dd = document.getElementById('loc-dropdown');
+  if(dd) dd.value = loc;
 }
 
 function addLocation(){
